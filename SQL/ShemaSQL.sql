@@ -63,6 +63,23 @@ INSERT INTO Catégorie (nom) VALUES ('Développement Web');
 INSERT INTO Catégorie (nom) VALUES ('Design Graphique');
 INSERT INTO Catégorie (nom) VALUES ('Marketing Digital');
 INSERT INTO Catégorie (nom) VALUES ('Langues Étrangères');
+-- plus d'insertion des catégories
+INSERT INTO Catégorie (nom) VALUES ('Programmation');
+ INSERT INTO Catégorie (nom) VALUES ('Data Science'); 
+ INSERT INTO Catégorie (nom) VALUES ('Sécurité Informatique');
+ INSERT INTO Catégorie (nom) VALUES ('Intelligence Artificielle');
+ INSERT INTO Catégorie (nom) VALUES ('Gestion de Projet'); 
+ INSERT INTO Catégorie (nom) VALUES ('Photographie'); 
+ INSERT INTO Catégorie (nom) VALUES ('Montage Vidéo');
+ INSERT INTO Catégorie (nom) VALUES ('Écriture Créative');
+ INSERT INTO Catégorie (nom) VALUES ('Musique'); 
+ INSERT INTO Catégorie (nom) VALUES ('Développement Personnel'); 
+ INSERT INTO Catégorie (nom) VALUES ('Santé et Bien-être');
+ INSERT INTO Catégorie (nom) VALUES ('Cuisine'); 
+ INSERT INTO Catégorie (nom) VALUES ('Arts et Loisirs'); 
+ INSERT INTO Catégorie (nom) VALUES ('Langage de Signe');
+ INSERT INTO Catégorie (nom) VALUES ('Sciences Humaines'); 
+ INSERT INTO Catégorie (nom) VALUES ('Sciences Naturelles');
 
 INSERT INTO Tag (nom) VALUES ('HTML');
 INSERT INTO Tag (nom) VALUES ('CSS');
