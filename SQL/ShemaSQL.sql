@@ -56,3 +56,19 @@ CREATE TABLE CoursTag (
     FOREIGN KEY (cours_id) REFERENCES Cours(id),
     FOREIGN KEY (tag_id) REFERENCES Tag(id)
 );
+
+-- insertion
+
+INSERT INTO Catégorie (nom) VALUES ('Développement Web');
+INSERT INTO Catégorie (nom) VALUES ('Design Graphique');
+INSERT INTO Catégorie (nom) VALUES ('Marketing Digital');
+INSERT INTO Catégorie (nom) VALUES ('Langues Étrangères');
+
+INSERT INTO Tag (nom) VALUES ('HTML');
+INSERT INTO Tag (nom) VALUES ('CSS');
+INSERT INTO Tag (nom) VALUES ('JavaScript');
+INSERT INTO Tag (nom) VALUES ('Photoshop');
+INSERT INTO Tag (nom) VALUES ('SEO');
+INSERT INTO Tag (nom) VALUES ('Espagnol');
+INSERT INTO Tag (nom) VALUES ('Anglais');
+
