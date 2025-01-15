@@ -7,8 +7,10 @@ CREATE TABLE Utilisateur (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255),
     email VARCHAR(255),
+    mot_de_passe VARCHAR(255),
     rôle ENUM('admin', 'enseignant', 'étudiant')
 );
+
 
 -- Table Catégorie
 CREATE TABLE Catégorie (
@@ -30,7 +32,7 @@ CREATE TABLE Contenu (
     type VARCHAR(50),
     data TEXT,
     cours_id INT,
-    FOREIGN KEY (cours_id) REFERENCES Cours(id)
+    FOREIGN KEY (cours_id) REFERENCES Cours(id) ON DELETE CASCADE
 );
 
 -- Table Tag
@@ -88,4 +90,3 @@ INSERT INTO Tag (nom) VALUES ('Photoshop');
 INSERT INTO Tag (nom) VALUES ('SEO');
 INSERT INTO Tag (nom) VALUES ('Espagnol');
 INSERT INTO Tag (nom) VALUES ('Anglais');
-
