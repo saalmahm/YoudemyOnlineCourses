@@ -66,10 +66,6 @@ ALTER TABLE Contenu MODIFY type ENUM('vidéo', 'document') NOT NULL;
 
 ALTER TABLE ÉtudiantCours ADD date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
-ALTER TABLE CoursTag ADD CONSTRAINT fk_cours FOREIGN KEY (cours_id) REFERENCES Cours(id) ON DELETE CASCADE;
-ALTER TABLE CoursTag ADD CONSTRAINT fk_tag FOREIGN KEY (tag_id) REFERENCES Tag(id) ON DELETE CASCADE;
-
-
 -- Table Associative ÉtudiantCours
 CREATE TABLE ÉtudiantCours (
     étudiant_id INT,
@@ -78,6 +74,7 @@ CREATE TABLE ÉtudiantCours (
     FOREIGN KEY (étudiant_id) REFERENCES Utilisateur(id),
     FOREIGN KEY (cours_id) REFERENCES Cours(id)
 );
+
 
 -- Table Associative CoursTag
 CREATE TABLE CoursTag (
@@ -121,6 +118,7 @@ INSERT INTO Tag (nom) VALUES ('Espagnol');
 INSERT INTO Tag (nom) VALUES ('Anglais');
 
 select * from utilisateur;
+
 SELECT mot_de_passe FROM Utilisateur;
 
 INSERT INTO Utilisateur (nom, email, rôle, mot_de_passe, active) 
