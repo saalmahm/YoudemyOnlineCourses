@@ -13,7 +13,7 @@ class Cours {
     }
 
     public function creeCours($titre, $description, $categorie_id) {
-        $query = "INSERT INTO cours (titre, description, categorie_id) VALUES (?, ?, ?)";
+        $query = "INSERT INTO cours (titre, description, catégorie_id) VALUES (?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$titre, $description, $categorie_id]);
         $this->id = $this->db->lastInsertId(); // Récupère l'ID du cours créé
@@ -53,7 +53,7 @@ class Cours {
     }
 
     public function filtrerCoursParCategorie($categorie_id) {
-        $query = "SELECT * FROM cours WHERE categorie_id = ?";
+        $query = "SELECT * FROM cours WHERE catégorie_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$categorie_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -78,4 +78,10 @@ class Cours {
         $stmt = $this->db->prepare($query);
         $stmt->execute([$this->id, $tag_id]);
     }
+
+    // Nouvelle méthode pour obtenir l'ID du cours
+    public function getId() {
+        return $this->id;
+    }
 }
+?>

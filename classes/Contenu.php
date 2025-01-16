@@ -9,6 +9,14 @@ class Contenu {
         $this->db = $db;
     }
 
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    public function setData($data) {
+        $this->data = $data;
+    }
+
     public function ajouterContenu($cours_id) {
         $query = "INSERT INTO contenu (type, data, cours_id) VALUES (?, ?, ?)";
         $stmt = $this->db->prepare($query);
@@ -37,8 +45,8 @@ class Contenu {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     public function afficherContenu() {
         return $this->data;
     }
 }
+?>
