@@ -1,3 +1,4 @@
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,91 +47,45 @@
               <h1 class="text-2xl font-bold text-center text-green-700">
                   Create an Account
               </h1>
-              <form class="space-y-6" action="#" method="post">
-                  <div>
-                      <label for="name" class="block mb-2 text-sm font-medium text-gray-900">
-                          Your Name
-                      </label>
-                      <input type="text" name="username" id="name" 
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                          focus:ring-green-600 focus:border-green-600 block w-full p-2.5" 
-                          placeholder="Enter your name" required>
-                  </div>
+              <form class="space-y-6" action="./signupform.php"  method="post">
+    <div>
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Your Name</label>
+        <input type="text" name="username" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" placeholder="Enter your name" required>
+    </div>
 
-                  <div>
-                      <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
-                          Your Email
-                      </label>
-                      <input type="email" name="email" id="email" 
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                          focus:ring-green-600 focus:border-green-600 block w-full p-2.5" 
-                          placeholder="Enter your email" required>
-                  </div>
+    <div>
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your Email</label>
+        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" placeholder="Enter your email" required>
+    </div>
 
-                  <div>
-                      <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
-                          Password
-                      </label>
-                      <input type="password" name="password" id="password" 
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                          focus:ring-green-600 focus:border-green-600 block w-full p-2.5" 
-                          placeholder="Enter your password" required>
-                  </div>
+    <div>
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" placeholder="Enter your password" required>
+    </div>
 
-                  <div>
-                      <label for="role" class="block mb-2 text-sm font-medium text-gray-900">
-                          Select Role
-                      </label>
-                      <select name="role" id="role" 
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                          focus:ring-green-600 focus:border-green-600 block w-full p-2.5" 
-                          required>
-                          <option value="" disabled selected>Select your role</option>
-                          <option value="student">Student</option>
-                          <option value="teacher">Teacher</option>
-                      </select>
-                  </div>
+    <div>
+        <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Select Role</label>
+        <select name="role" id="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" required>
+            <option value="" disabled selected>Select your role</option>
+            <option value="étudiant">Student</option>
+            <option value="enseignant">Teacher</option>
+        </select>
+    </div>
 
-                  <button type="submit" 
-                      class="w-full bg-green-600 hover:bg-green-700 text-white font-medium 
-                      rounded-lg text-sm px-5 py-2.5 text-center">
-                      Create an Account
-                  </button>
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an Account</button>
 
-                  <p class="text-sm font-light text-gray-500 text-center">
-                      Already have an account? 
-                      <a href="login.php" class="font-medium text-green-700 hover:underline">
-                          Login here
-                      </a>
-                  </p>
-              </form>
+    <p class="text-sm font-light text-gray-500 text-center">
+        Already have an account? 
+        <a href="login.php" class="font-medium text-green-700 hover:underline">Login here</a>
+    </p>
+</form>
+
           </div>
       </div>
   </div>
 </section>
 
 
-
-<footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div class="sm:flex sm:items-center sm:justify-between">
-            <a href="/index.php" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                <img src="/images/icon-learning.png" class="h-8" alt="Youdemy Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"> Youdemy</span>
-            </a>
-            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                <li>
-                    <a href="/index.php" class="hover:underline me-4 md:me-6">Home</a>
-                </li>
-                <li>
-                    <a href="/pages/courses.php" class="hover:underline me-4 md:me-6">Courses</a>
-                </li>
-            </ul>
-        </div>
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#" class="hover:underline">Youdemy™</a>. All Rights Reserved.</span>
-    </div>
-</footer>
 <script>
     const menu = document.getElementById("burger-icon");
     const sidebar = document.getElementById("sidebar");

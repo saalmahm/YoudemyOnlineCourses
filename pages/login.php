@@ -1,3 +1,22 @@
+<?php
+require_once '../db.php'; // Inclure la connexion à la base de données
+require_once '../classes/User.php'; // Inclure la classe User
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['usernameOrEmail'];
+    $password = $_POST['password'];
+
+    $isConnected = User::seConnecter($conn, $email, $password);
+
+    if ($isConnected) {
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        echo "<p class='text-red-500 text-center'>Invalid credentials. Please try again.</p>";
+    }
+}
+?>
+
 <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
 
 <header class="flex justify-between p-4 fixed top-0 left-0 right-0 bg-white shadow-md z-50">
@@ -16,7 +35,6 @@
             <a href="/index.php" class="text-black text-lg">Home</a>
             <a href="/pages/courses.php" class="text-black text-lg">Courses</a>
                 <a href="/pages/signup.php" class="text-green-700 text-lg">Sign Up</a>
-            
         </div>
     </div>
     <div class="hidden lg:flex justify-center space-x-4">
@@ -26,7 +44,6 @@
                 <li>
                     <a href="/pages/signup.php" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Sign Up</a>
                 </li>
-            
         </ul>
     </div>
 </header>

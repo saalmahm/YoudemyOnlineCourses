@@ -50,7 +50,7 @@
                 <ul id="pagination" class="inline-flex items-center space-x-2">
                 </ul>
             </nav>
-        </div>
+        </div>-
     </div>
 </section>
 

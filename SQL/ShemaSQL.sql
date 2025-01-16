@@ -7,9 +7,15 @@ CREATE TABLE Utilisateur (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255),
     email VARCHAR(255),
-    mot_de_passe VARCHAR(255),
     rôle ENUM('admin', 'enseignant', 'étudiant')
 );
+
+-- ajouter champ password
+ALTER TABLE Utilisateur
+ADD COLUMN mot_de_passe VARCHAR(255);
+
+-- Ajout du champ active
+ALTER TABLE Utilisateur ADD active BOOLEAN DEFAULT 0;
 
 
 -- Table Catégorie
@@ -40,6 +46,29 @@ CREATE TABLE Tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255)
 );
+
+-- Évite les doublons dans certaines colonnes
+ALTER TABLE Utilisateur ADD UNIQUE (email);
+ALTER TABLE Catégorie ADD UNIQUE (nom);
+ALTER TABLE Tag ADD UNIQUE (nom);
+
+ALTER TABLE Utilisateur MODIFY rôle ENUM('admin', 'enseignant', 'étudiant') NOT NULL;
+
+-- suivre la création et la mise à jour des enregistrements
+ALTER TABLE Utilisateur ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE Utilisateur ADD updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+ALTER TABLE Cours ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE Cours ADD updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+ALTER TABLE Catégorie ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- modify table contenu
+ALTER TABLE Contenu MODIFY type ENUM('vidéo', 'document') NOT NULL;
+
+ALTER TABLE ÉtudiantCours ADD date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE CoursTag ADD CONSTRAINT fk_cours FOREIGN KEY (cours_id) REFERENCES Cours(id) ON DELETE CASCADE;
+ALTER TABLE CoursTag ADD CONSTRAINT fk_tag FOREIGN KEY (tag_id) REFERENCES Tag(id) ON DELETE CASCADE;
+
 
 -- Table Associative ÉtudiantCours
 CREATE TABLE ÉtudiantCours (
@@ -90,3 +119,12 @@ INSERT INTO Tag (nom) VALUES ('Photoshop');
 INSERT INTO Tag (nom) VALUES ('SEO');
 INSERT INTO Tag (nom) VALUES ('Espagnol');
 INSERT INTO Tag (nom) VALUES ('Anglais');
+
+select * from utilisateur;
+SELECT mot_de_passe FROM Utilisateur;
+
+INSERT INTO Utilisateur (nom, email, rôle, mot_de_passe, active) 
+VALUES ('salma', 'admin@example.com', 'admin', 'admin', 1);
+
+ALTER TABLE Utilisateur
+ADD COLUMN mot_de_passe VARCHAR(255);
