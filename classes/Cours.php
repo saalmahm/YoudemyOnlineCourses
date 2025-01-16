@@ -19,6 +19,29 @@ class Cours {
         $this->id = $this->db->lastInsertId(); // Récupère l'ID du cours créé
     }
 
+    public function recupererTousLesCours() {
+        $query = "SELECT cours.*, Catégorie.nom AS categorie_nom FROM cours 
+                  JOIN Catégorie ON cours.catégorie_id = Catégorie.id";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function recupererContenusParCours($cours_id) {
+        $query = "SELECT * FROM contenu WHERE cours_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$cours_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function recupererTagsParCours($cours_id) {
+        $query = "SELECT tag.nom FROM tag
+                  JOIN coursTag ON tag.id = coursTag.tag_id
+                  WHERE coursTag.cours_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$cours_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function modifierCours($titre, $description) {
         $query = "UPDATE cours SET titre = ?, description = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
@@ -37,12 +60,6 @@ class Cours {
         $query = "DELETE FROM cours WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$this->id]);
-    }
-
-    public function recupererTousLesCours() {
-        $query = "SELECT * FROM cours";
-        $stmt = $this->db->query($query);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function recupererUnCours($id) {

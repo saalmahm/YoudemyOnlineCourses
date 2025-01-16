@@ -47,12 +47,12 @@
 
     <!-- Modal -->
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
-            <div class="flex justify-between items-center mb-4">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
+        <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-700">Add New Course</h2>
             <button id="close-modal" class="text-gray-500 hover:text-gray-700 font-bold text-lg">×</button>
-            </div>
-            <form id="course-form" method="POST" action="./add-cours.php" enctype="multipart/form-data">
+        </div>
+        <form id="course-form" method="POST" action="./add-cours.php" enctype="multipart/form-data">
             <!-- Section Cours -->
             <div class="mb-4">
                 <label for="course-title" class="block text-sm font-medium text-gray-700">Course Title</label>
@@ -67,30 +67,43 @@
                 <?php
                     require_once '../db.php'; 
                     require_once '../classes/Categorie.php'; 
+                    require_once '../classes/Tag.php'; 
 
                     $categorie = new Categorie($conn);
                     $categories = $categorie->recupererCategories();
-                    ?>
+
+                    $tag = new Tag($conn);
+                    $tags = $tag->recupererTags();
+                ?>
                 <select id="course-category" name="category" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                <option value="">Select a category</option>
-                <?php foreach ($categories as $cat) : ?>
-                    <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
-                <?php endforeach; ?>
+                    <option value="">Select a category</option>
+                    <?php foreach ($categories as $cat) : ?>
+                        <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <!-- Section Tags -->
+            <div class="mb-4">
+                <label for="course-tags" class="block text-sm font-medium text-gray-700">Tags</label>
+                <select id="course-tags" name="tags[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" multiple required>
+                    <?php foreach ($tags as $tag) : ?>
+                        <option value="<?= htmlspecialchars($tag['id']) ?>"><?= htmlspecialchars($tag['nom']) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <!-- Section Contenus -->
             <div id="content-section" class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Contents</label>
                 <div id="content-fields" class="space-y-4">
-                <div class="content-item flex space-x-4 items-center">
-                    <select name="content-type[]" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                    <option value="">Select content type</option>
-                    <option value="video">Video</option>
-                    <option value="document">Document</option>
-                    </select>
-                    <input type="file" name="content-file[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
-                    <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
-                </div>
+                    <div class="content-item flex space-x-4 items-center">
+                        <select name="content-type[]" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="">Select content type</option>
+                            <option value="video">Video</option>
+                            <option value="document">Document</option>
+                        </select>
+                        <input type="file" name="content-file[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+                        <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
+                    </div>
                 </div>
                 <button id="add-content" type="button" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add Content</button>
             </div>
@@ -99,84 +112,72 @@
                 <button type="button" id="cancel-modal" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Add Course</button>
             </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
+
+
 
 
       <!-- Tableau des Cours -->
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-    <tr>
-      <th scope="col" class="px-6 py-3">
-        Titre du Cours
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Description
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Contenu
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Tags
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Catégorie
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Action
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-        Cours Python
-      </th>
-      <td class="px-6 py-4">
-        Apprendre Python de manière interactive.
-      </td>
-      <td class="px-6 py-4">
-        Vidéo + Document
-      </td>
-      <td class="px-6 py-4">
-        Python, Développement
-      </td>
-      <td class="px-6 py-4">
-        Programmation
-      </td>
-      <td class="px-6 py-4 flex space-x-4">
-        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
-        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
-      </td>
-    </tr>
-    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-        Cours JavaScript
-      </th>
-      <td class="px-6 py-4">
-        Introduction au JavaScript moderne.
-      </td>
-      <td class="px-6 py-4">
-        Vidéo
-      </td>
-      <td class="px-6 py-4">
-        JavaScript, Frontend
-      </td>
-      <td class="px-6 py-4">
-        Développement Web
-      </td>
-      <td class="px-6 py-4 flex space-x-4">
-        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
-        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">Titre du Cours</th>
+                <th scope="col" class="px-6 py-3">Description</th>
+                <th scope="col" class="px-6 py-3">Contenu</th>
+                <th scope="col" class="px-6 py-3">Tags</th>
+                <th scope="col" class="px-6 py-3">Catégorie</th>
+                <th scope="col" class="px-6 py-3">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                require '../db.php';
+                require '../classes/Cours.php';
 
+                $cours = new Cours($conn);
+                $tousLesCours = $cours->recupererTousLesCours();
 
-      </div>
+                foreach ($tousLesCours as $coursInfo) {
+                    $contenus = $cours->recupererContenusParCours($coursInfo['id']);
+                    $tags = $cours->recupererTagsParCours($coursInfo['id']);
+
+                    $contenusStr = implode(", ", array_map(function($contenu) {
+                        return ucfirst($contenu['type']);
+                    }, $contenus));
+
+                    $tagsStr = implode(", ", array_map(function($tag) {
+                        return ucfirst($tag['nom']);
+                    }, $tags));
+            ?>
+            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <?= htmlspecialchars($coursInfo['titre']) ?>
+                </th>
+                <td class="px-6 py-4">
+                    <?= htmlspecialchars($coursInfo['description']) ?>
+                </td>
+                <td class="px-6 py-4">
+                    <?= htmlspecialchars($contenusStr) ?>
+                </td>
+                <td class="px-6 py-4">
+                    <?= htmlspecialchars($tagsStr) ?>
+                </td>
+                <td class="px-6 py-4">
+                    <?= htmlspecialchars($coursInfo['categorie_nom']) ?>
+                </td>
+                <td class="px-6 py-4 flex space-x-4">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+
     </main>
   </div>
 
