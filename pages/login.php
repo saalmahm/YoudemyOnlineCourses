@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isConnected = User::seConnecter($conn, $email, $password);
 
     if ($isConnected) {
-        header("Location: dashboard.php");
+        header("Location: teacher-statistics.php");
         exit();
     } else {
         echo "<p class='text-red-500 text-center'>Invalid credentials. Please try again.</p>";

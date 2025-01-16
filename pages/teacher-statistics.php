@@ -34,7 +34,7 @@
         </ul>
       </nav>
       <div class="p-4 bg-indigo-800">
-        <button class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">Déconnexion</button>
+      <a href="/pages/logout.php" class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition text-center px-10">Déconnexion</a>    
       </div>
     </aside>
 

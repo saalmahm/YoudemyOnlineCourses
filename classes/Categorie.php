@@ -33,10 +33,17 @@ class Categorie {
     }
 
     public function recupererCategories() {
-        $query = "SELECT * FROM categorie";
-        $stmt = $this->db->query($query);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $query = "SELECT * FROM Catégorie";
+            $stmt = $this->db->query($query); // Assurez-vous que $this->db est bien défini et contient l'instance PDO
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erreur : " . $e->getMessage();
+            return [];
+        }
     }
+    
+    
 
     public function recupererCategorie($id) {
         $query = "SELECT * FROM categorie WHERE id = ?";
