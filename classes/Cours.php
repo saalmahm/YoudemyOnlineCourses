@@ -58,14 +58,23 @@ class Cours {
     }
 
     public function supprimerCours($id) {
-        $query = "DELETE FROM contenu WHERE cours_id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$id]);
+        $query1 = "DELETE FROM courstag WHERE cours_id = :id";
+        $query2 = "DELETE FROM cours WHERE id = :id";
+        
+        try {
+            $stmt1 = $this->db->prepare($query1);
+            $stmt1->execute([':id' => $id]);
     
-        $query = "DELETE FROM cours WHERE id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$id]);
+            $stmt2 = $this->db->prepare($query2);
+            $stmt2->execute([':id' => $id]);
+            
+            return true;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return false;
+        }
     }
+    
     
     public function recupererUnCours($id) {
         $query = "SELECT * FROM cours WHERE id = ?";
