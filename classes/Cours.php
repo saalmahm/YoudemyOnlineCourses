@@ -48,18 +48,16 @@ class Cours {
         $stmt->execute([$titre, $description, $this->id]);
     }
 
-    public function supprimerCours() {
-        $query = "DELETE FROM coursTag WHERE cours_id = ?";
+    public function supprimerCours($id) {
+        // Supprimer les contenus associés
+        $query = "DELETE FROM contenu WHERE cours_id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$this->id]);
+        $stmt->execute([$id]);
 
-        foreach ($this->contenus as $contenu) {
-            $contenu->supprimerContenu();
-        }
-
+        // Supprimer le cours
         $query = "DELETE FROM cours WHERE id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$this->id]);
+        $stmt->execute([$id]);
     }
 
     public function recupererUnCours($id) {
