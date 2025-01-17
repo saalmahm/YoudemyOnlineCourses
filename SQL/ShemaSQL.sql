@@ -32,6 +32,11 @@ CREATE TABLE Cours (
     FOREIGN KEY (catégorie_id) REFERENCES Catégorie(id)
 );
 
+ALTER TABLE cours 
+ADD COLUMN created_by INT;
+
+ALTER TABLE cours 
+ADD CONSTRAINT fk_created_by FOREIGN KEY (created_by) REFERENCES utilisateur(id);
 -- Table Contenu
 CREATE TABLE Contenu (
     id INT AUTO_INCREMENT PRIMARY KEY,
