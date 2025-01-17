@@ -169,8 +169,8 @@
                     <?= htmlspecialchars($coursInfo['categorie_nom']) ?>
                 </td>
                 <td class="px-6 py-4 flex space-x-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
-                    <a href="./teacher-delete-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>                </td>
+                <a href="./teacher-edit-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                <a href="./teacher-delete-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>                </td>
             </tr>
             <?php } ?>
         </tbody>

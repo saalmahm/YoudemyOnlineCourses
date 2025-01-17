@@ -51,28 +51,40 @@ class Cours {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function modifierCours($titre, $description) {
-        $query = "UPDATE cours SET titre = ?, description = ? WHERE id = ?";
+    public function modifierCours($titre, $description, $categorie_id, $id) {
+        $query = "UPDATE cours SET titre = ?, description = ?, catégorie_id = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$titre, $description, $this->id]);
+        $stmt->execute([$titre, $description, $categorie_id, $id]);
     }
+     
 
     public function supprimerCours($id) {
-        $query1 = "DELETE FROM courstag WHERE cours_id = :id";
-        $query2 = "DELETE FROM cours WHERE id = :id";
-        
+        $query1 = "DELETE FROM contenu WHERE cours_id = :id";
+        $query2 = "DELETE FROM coursTag WHERE cours_id = :id";
+        $query3 = "DELETE FROM cours WHERE id = :id";
+    
         try {
             $stmt1 = $this->db->prepare($query1);
             $stmt1->execute([':id' => $id]);
     
             $stmt2 = $this->db->prepare($query2);
             $stmt2->execute([':id' => $id]);
-            
+    
+            $stmt3 = $this->db->prepare($query3);
+            $stmt3->execute([':id' => $id]);
+    
             return true;
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();
             return false;
         }
+    }
+    
+   
+    public function supprimerTagsParCours($cours_id) {
+        $query = "DELETE FROM coursTag WHERE cours_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$cours_id]);
     }
     
     
