@@ -1,3 +1,11 @@
+<?php
+require_once '../db.php'; 
+require_once '../classes/Cours.php';
+
+$cours = new Cours($conn);
+$totalCours = $cours->getTotalCours();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,28 +46,28 @@
       </div>
     </aside>
 
+
     <main class="flex-grow p-6">
-      <header class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-indigo-700">Welcome Teacher,</h2>
-      </header>
+        <header class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700">Welcome Teacher,</h2>
+        </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg rounded-lg p-6">
-          <h3 class="text-lg font-semibold mb-2">Total de Cours</h3>
-          <p class="text-4xl font-bold">120</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-2">Total de Cours</h3>
+                <p class="text-4xl font-bold"><?php echo $totalCours; ?></p>
+            </div>
+            <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-2">Total d'Étudiants</h3>
+                <p class="text-4xl font-bold">1,500</p>
+            </div>
+            <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white shadow-lg rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-2">Cours les Plus Populaires</h3>
+                <p class="text-4xl font-bold">"Introduction à PHP"</p>
+            </div>
         </div>
-        <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg rounded-lg p-6">
-          <h3 class="text-lg font-semibold mb-2">Total d'Étudiants</h3>
-          <p class="text-4xl font-bold">1,500</p>
-        </div>
-        <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white shadow-lg rounded-lg p-6">
-          <h3 class="text-lg font-semibold mb-2">Cours les Plus Populaires</h3>
-          <p class="text-4xl font-bold">"Introduction à PHP"</p>
-        </div>
-      </div>
-
-
     </main>
+
   </div>
 </body>
 </html>

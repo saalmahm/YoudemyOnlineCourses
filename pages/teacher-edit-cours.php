@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Modifier le Cours</h2>
-                <a href="page_cours.php" class="text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</a>
+                <a href="teacher-manageCourses.php" class="text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</a>
             </div>
             <form id="course-form" method="POST" action="teacher-edit-cours.php" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($coursInfo['id']); ?>">
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- Boutons -->
                 <div class="flex justify-end space-x-4">
-                    <a href="page_cours.php" class="px-4 py-2 bg-gray-400 text-white rounded-lg shadow hover:bg-gray-500">Annuler</a>
+                    <a href="teacher-manageCourses.php" class="px-4 py-2 bg-gray-400 text-white rounded-lg shadow hover:bg-gray-500">Annuler</a>
                     <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">Enregistrer</button>
                 </div>
             </form>

@@ -19,6 +19,14 @@ class Cours {
         $this->id = $this->db->lastInsertId();
     }    
     
+    public function getTotalCours() {
+        $query = "SELECT COUNT(*) AS total FROM cours";
+        $stmt = $this->db->query($query);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+    
+
     public function recupererTousLesCours() {
         $query = "SELECT cours.*, Catégorie.nom AS categorie_nom FROM cours 
                   JOIN Catégorie ON cours.catégorie_id = Catégorie.id";
