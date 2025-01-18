@@ -1,4 +1,5 @@
 <?php
+session_start(); 
 require_once '../db.php'; 
 require_once '../classes/Cours.php'; 
 require_once '../classes/Contenu.php'; 
@@ -7,15 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $category = $_POST['category'];
-    $tags = $_POST['tags']; // Récupérer les tags sélectionnés
+    $tags = $_POST['tags']; 
+    $created_by = $_SESSION['user_id']; 
 
-    // Insertion du cours dans la base de données
     $cours = new Cours($conn);
-    $cours->creeCours($title, $description, $category);
-    $coursId = $cours->getId(); // Utiliser la méthode getId pour obtenir l'ID du cours
+    $cours->creeCours($title, $description, $category, $created_by); 
+    $coursId = $cours->getId(); 
 
     if ($coursId) {
-        // Ajouter les tags au cours
         foreach ($tags as $tagId) {
             $cours->ajouterTag($tagId);
         }
@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $uploadFilePath = $uploadDir . basename($contentFileName);
 
             if (move_uploaded_file($contentFile, $uploadFilePath)) {
-                // Insertion du contenu dans la base de données
                 $contenu = new Contenu($conn);
                 $contenu->setType($contentType);
                 $contenu->setData($uploadFilePath);

@@ -24,14 +24,14 @@ class Cours {
     }
 
     public function creeCours($titre, $description, $categorie_id, $created_by) {
-        $query = "INSERT INTO cours (titre, description, catégorie_id, created_by) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO Cours (titre, description, catégorie_id, created_by) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$titre, $description, $categorie_id, $created_by]);
         $this->id = $this->db->lastInsertId();
     }    
     
     public function getTotalCours() {
-        $query = "SELECT COUNT(*) AS total FROM cours";
+        $query = "SELECT COUNT(*) AS total FROM Cours";
         $stmt = $this->db->query($query);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
@@ -39,15 +39,15 @@ class Cours {
     
 
     public function recupererTousLesCours() {
-        $query = "SELECT cours.*, Catégorie.nom AS categorie_nom FROM cours 
-                  JOIN Catégorie ON cours.catégorie_id = Catégorie.id";
+        $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom FROM Cours 
+                  JOIN Catégorie ON Cours.catégorie_id = Catégorie.id";
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }    
 
     public function recupererEnseignantCours($user_id) {
-        $query = "SELECT cours.*, Catégorie.nom AS categorie_nom FROM cours 
-                  JOIN Catégorie ON cours.catégorie_id = Catégorie.id
+        $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom FROM Cours 
+                  JOIN Catégorie ON Cours.catégorie_id = Catégorie.id
                   WHERE cours.created_by = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$user_id]);
@@ -71,7 +71,7 @@ class Cours {
     }
 
     public function modifierCours($titre, $description, $categorie_id, $id) {
-        $query = "UPDATE cours SET titre = ?, description = ?, catégorie_id = ? WHERE id = ?";
+        $query = "UPDATE Cours SET titre = ?, description = ?, catégorie_id = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$titre, $description, $categorie_id, $id]);
     }
@@ -80,7 +80,7 @@ class Cours {
     public function supprimerCours($id) {
         $query1 = "DELETE FROM contenu WHERE cours_id = :id";
         $query2 = "DELETE FROM coursTag WHERE cours_id = :id";
-        $query3 = "DELETE FROM cours WHERE id = :id";
+        $query3 = "DELETE FROM Cours WHERE id = :id";
     
         try {
             $stmt1 = $this->db->prepare($query1);
@@ -108,21 +108,21 @@ class Cours {
     
     
     public function recupererUnCours($id) {
-        $query = "SELECT * FROM cours WHERE id = ?";
+        $query = "SELECT * FROM Cours WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function filtrerCoursParCategorie($categorie_id) {
-        $query = "SELECT * FROM cours WHERE catégorie_id = ?";
+        $query = "SELECT * FROM Cours WHERE catégorie_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$categorie_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function filtrerCoursParTag($tag_id) {
-        $query = "SELECT c.* FROM cours c
+        $query = "SELECT c.* FROM Cours c
                   JOIN coursTag ct ON c.id = ct.cours_id
                   WHERE ct.tag_id = ?";
         $stmt = $this->db->prepare($query);
@@ -141,7 +141,6 @@ class Cours {
         $stmt->execute([$this->id, $tag_id]);
     }
 
-    // Nouvelle méthode pour obtenir l'ID du cours
     public function getId() {
         return $this->id;
     }
