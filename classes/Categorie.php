@@ -1,22 +1,35 @@
 <?php
 class Categorie {
-    protected $id;
-    protected $nom;
-    protected $db;
+    private $id;
+    private $nom;
+    private $db;
 
-    public function __construct($db) {
+    public function __construct($db, $id = null, $nom = null) {
         $this->db = $db;
+        $this->id = $id;
+        $this->nom = $nom;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setNom($nom) {
+        $this->nom = $nom;
     }
 
     public function creeCategorie($nom) {
+        if (empty($nom)) {
+            throw new Exception("Le nom de la catégorie ne peut pas être vide.");
+        }
         $query = "INSERT INTO categorie (nom) VALUES (?)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$nom]);
-        $this->id = $this->db->lastInsertId(); // Récupérer l'ID de la catégorie créée
+        $this->id = $this->db->lastInsertId();
     }
 
     public function modifierCategorie($nom) {
-        $this->nom = $nom;
+        $this->setNom($nom);
         $query = "UPDATE categorie SET nom = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$nom, $this->id]);
@@ -34,16 +47,14 @@ class Categorie {
 
     public function recupererCategories() {
         try {
-            $query = "SELECT * FROM Catégorie";
-            $stmt = $this->db->query($query); // Assurez-vous que $this->db est bien défini et contient l'instance PDO
+            $query = "SELECT * FROM categorie"; // Table en minuscule
+            $stmt = $this->db->query($query);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();
             return [];
         }
     }
-    
-    
 
     public function recupererCategorie($id) {
         $query = "SELECT * FROM categorie WHERE id = ?";

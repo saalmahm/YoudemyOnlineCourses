@@ -28,7 +28,6 @@ class Enseignant extends User {
         }
     }
 
-    // Modification de seConnecter pour qu'elle soit statique et qu'elle gère l'authentification en fonction du rôle
     public static function seConnecter($pdo, $email, $password) {
         $stmt = $pdo->prepare("SELECT * FROM Utilisateur WHERE email = :email");
         $stmt->execute(['email' => $email]);
@@ -49,3 +48,4 @@ class Enseignant extends User {
         }
     }
 }
+

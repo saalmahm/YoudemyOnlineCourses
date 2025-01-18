@@ -1,11 +1,29 @@
 <?php
 class CoursTag {
-    protected $tag_id;
-    protected $cours_id;
-    protected $db;
+    private $tag_id;
+    private $cours_id;
+    private $db;
 
-    public function __construct($db) {
+    public function __construct($db, $cours_id = null, $tag_id = null) {
         $this->db = $db;
+        $this->cours_id = $cours_id;
+        $this->tag_id = $tag_id;
+    }
+
+    public function getCoursId() {
+        return $this->cours_id;
+    }
+
+    public function setCoursId($cours_id) {
+        $this->cours_id = $cours_id;
+    }
+
+    public function getTagId() {
+        return $this->tag_id;
+    }
+
+    public function setTagId($tag_id) {
+        $this->tag_id = $tag_id;
     }
 
     public function creerAssociation($cours_id, $tag_id) {
@@ -14,9 +32,9 @@ class CoursTag {
         $stmt->execute([$cours_id, $tag_id]);
     }
 
-    public function supprimerAssociation() {
+    public function supprimerAssociation($cours_id, $tag_id) {
         $query = "DELETE FROM coursTag WHERE cours_id = ? AND tag_id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$this->cours_id, $this->tag_id]);
+        $stmt->execute([$cours_id, $tag_id]);
     }
 }

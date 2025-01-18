@@ -1,22 +1,34 @@
 <?php
 class Tag {
-    protected $id;
-    protected $nom;
-    protected $db;
+    private $id;
+    private $nom;
+    private $db;
 
-    public function __construct($db) {
+    public function __construct($db, $nom = null, $id = null) {
         $this->db = $db;
+        $this->nom = $nom;
+        $this->id = $id;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+    public function setNom($nom) {
+        $this->nom = $nom;
     }
 
     public function creeTag($nom) {
+        if (empty($nom)) {
+            throw new Exception("Le nom du tag ne peut pas être vide.");
+        }
         $query = "INSERT INTO tag (nom) VALUES (?)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$nom]);
-        $this->id = $this->db->lastInsertId(); // Récupère l'ID du tag créé
+        $this->id = $this->db->lastInsertId();
     }
 
     public function modifierTag($nom) {
-        $this->nom = $nom;
+        $this->setNom($nom);
         $query = "UPDATE tag SET nom = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$nom, $this->id]);
@@ -45,3 +57,4 @@ class Tag {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+

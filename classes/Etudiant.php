@@ -42,7 +42,5 @@ class Etudiant extends User {
         }
     }
 
-    public function seConnecter() {
-        echo "Connexion en tant qu'étudiant...";
-    }
+
 }

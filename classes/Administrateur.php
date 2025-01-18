@@ -7,16 +7,12 @@ class Administrateur extends User {
         parent::__construct($pdo, $id, $nom, $email, 'admin', $password);
     }
 
-    public function seConnecter() {
-        echo "Connexion en tant qu'administrateur...";
-    }
-
-    public function activéeUser($userId) {
+    public function activerUser($userId) {
         $stmt = $this->pdo->prepare("UPDATE Utilisateur SET active = 1 WHERE id = :id");
         $stmt->execute(['id' => $userId]);
     }
 
-    public function suspenséeUser($userId) {
+    public function suspendreUser($userId) {
         $stmt = $this->pdo->prepare("UPDATE Utilisateur SET active = 0 WHERE id = :id");
         $stmt->execute(['id' => $userId]);
     }
@@ -52,8 +48,10 @@ class Administrateur extends User {
 
         $stmt = $this->pdo->query("SELECT Cours.titre, COUNT(ÉtudiantCours.cours_id) as total FROM ÉtudiantCours JOIN Cours ON ÉtudiantCours.cours_id = Cours.id GROUP BY ÉtudiantCours.cours_id ORDER BY total DESC LIMIT 1");
         $row = $stmt->fetch();
+        echo "Cours le plus populaire: " . $row['titre'] . " - Total d'inscriptions: " . $row['total'] . "<br>";
 
         $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM Utilisateur");
         $row = $stmt->fetch();
+        echo "Nombre total d'utilisateurs: " . $row['total'] . "<br>";
     }
 }

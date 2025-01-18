@@ -8,8 +8,19 @@ class Cours {
     protected $categorie;     
     protected $db;
 
-    public function __construct($db) {
+    public function __construct($db, $titre = null, $description = null, $categorie = null) {
         $this->db = $db;
+        $this->titre = $titre;
+        $this->description = $description;
+        $this->categorie = $categorie;
+    }
+
+    public function setTitre($titre) {
+        $this->titre = $titre;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
     }
 
     public function creeCours($titre, $description, $categorie_id, $created_by) {

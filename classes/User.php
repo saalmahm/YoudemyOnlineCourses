@@ -8,7 +8,7 @@ abstract class User {
     protected $password;
     protected $pdo;
 
-    public function __construct($pdo, $id, $nom, $email, $role, $password) {
+    public function __construct($pdo, $id = null, $nom = null, $email = null, $role = null, $password = null) {
         $this->pdo = $pdo;
         $this->id = $id;
         $this->nom = $nom;
@@ -37,7 +37,7 @@ abstract class User {
             $_SESSION['user_email'] = $user['email'];
             return true;
         } else {
-            return false;
+            throw new Exception("Échec de la connexion. Vérifiez vos identifiants.");
         }
     }
 
@@ -119,13 +119,10 @@ abstract class User {
             if ($stmt->execute()) {
                 return true;
             } else {
-                return "Erreur lors de l'inscription : " . $stmt->errorInfo()[2];
+                throw new Exception("Erreur lors de l'inscription : " . $stmt->errorInfo()[2]);
             }
         } catch (Exception $e) {
-            return "Erreur lors de la création de l'utilisateur : " . $e->getMessage();
+            throw new Exception("Erreur lors de la création de l'utilisateur : " . $e->getMessage());
         }
     }
-    
-    
-    
 }
