@@ -39,11 +39,14 @@ class Cours {
     
 
     public function recupererTousLesCours() {
-        $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom FROM Cours 
-                  JOIN Catégorie ON Cours.catégorie_id = Catégorie.id";
+        $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom, Utilisateur.nom AS enseignant_nom 
+                  FROM Cours 
+                  JOIN Catégorie ON Cours.catégorie_id = Catégorie.id
+                  JOIN Utilisateur ON Cours.created_by = Utilisateur.id";
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }    
+    }
+    
 
     public function recupererEnseignantCours($user_id) {
         $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom FROM Cours 

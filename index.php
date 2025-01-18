@@ -49,7 +49,7 @@
             <p class="text-lg leading-relaxed mb-6">
                 Unlock your potential with our wide range of expert-led courses. Learn new skills, pursue your passions, and achieve your goals with Youdemy. Whether you're a student or a professional, we've got something for everyone.
             </p>
-            <a href="index.php" class="inline-block bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-lg px-6 py-3 text-gray-900 shadow-lg">
+            <a href="/pages/courses.php" class="inline-block bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-lg px-6 py-3 text-gray-900 shadow-lg">
                 Explore Courses
             </a>
         </div>

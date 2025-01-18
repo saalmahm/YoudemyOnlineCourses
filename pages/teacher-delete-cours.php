@@ -14,4 +14,11 @@ if (isset($_GET['id'])) {
 } else {
     echo "ID de cours non spécifié.";
 }
+
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
+    header("Location: login.php");
+    exit();
+}
 ?>
