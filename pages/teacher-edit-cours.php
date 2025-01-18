@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = $_POST['description'];
     $categorie_id = $_POST['category'];
     $tags = $_POST['tags'] ?? [];
+    $contentIds = $_POST['content-id'] ?? [];
+    $contentTypes = $_POST['content-type'];
+    $contentFiles = $_FILES['content-file'];
 
     $cours->modifierCours($titre, $description, $categorie_id, $id);
 
@@ -26,6 +29,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $coursTag->creerAssociation($id, $tag_id);
     }
 
+    for ($i = 0; $i < count($contentTypes); $i++) {
+        $contentType = $contentTypes[$i];
+        $contentFile = $contentFiles['tmp_name'][$i];
+        $contentFileName = $contentFiles['name'][$i];
+        
+        if (isset($contentIds[$i]) && !empty($contentIds[$i])) {
+            $contenu = new Contenu($conn, $contentType, $uploadFilePath, $contentIds[$i]);
+            if ($contentFile) {
+                $uploadDir = '../uploads/';
+                $uploadFilePath = $uploadDir . basename($contentFileName);
+                if (move_uploaded_file($contentFile, $uploadFilePath)) {
+                    $contenu->setData($uploadFilePath);
+                }
+            }
+            $contenu->modifierContenu($contentType, $contenu->afficherContenu());
+        } else {
+            if ($contentFile) {
+                $uploadDir = '../uploads/';
+                $uploadFilePath = $uploadDir . basename($contentFileName);
+                if (move_uploaded_file($contentFile, $uploadFilePath)) {
+                    $contenu = new Contenu($conn, $contentType, $uploadFilePath);
+                    $contenu->ajouterContenu($id);
+                }
+            }
+        }
+    }
+    
     header('Location: teacher-manageCourses.php');
     exit;
 } elseif (isset($_GET['id'])) {
@@ -36,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $categories = $categorie->recupererCategories();
     $allTags = $tag->recupererTags();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -56,19 +87,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form id="course-form" method="POST" action="teacher-edit-cours.php" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($coursInfo['id']); ?>">
 
-                <!-- Titre -->
                 <div class="mb-4">
                     <label for="course-title" class="block text-sm font-medium text-gray-700">Titre du Cours</label>
                     <input type="text" id="course-title" name="title" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="<?= htmlspecialchars($coursInfo['titre']); ?>" required>
                 </div>
 
-                <!-- Description -->
                 <div class="mb-4">
                     <label for="course-description" class="block text-sm font-medium text-gray-700">Description</label>
                     <textarea id="course-description" name="description" rows="4" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"><?= htmlspecialchars($coursInfo['description']); ?></textarea>
                 </div>
 
-                <!-- Catégorie -->
                 <div class="mb-4">
                     <label for="course-category" class="block text-sm font-medium text-gray-700">Catégorie</label>
                     <select id="course-category" name="category" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -79,7 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                 </div>
 
-                <!-- Tags -->
                 <div class="mb-4">
                     <label for="course-tags" class="block text-sm font-medium text-gray-700">Tags</label>
                     <select id="course-tags" name="tags[]" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" multiple>
@@ -89,12 +116,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                 </div>
 
-                <!-- Contenus -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Contenus</label>
                     <div id="content-fields" class="space-y-2">
                         <?php foreach ($contenus as $contenu): ?>
                             <div class="flex items-center space-x-4">
+                                <input type="hidden" name="content-id[]" value="<?= htmlspecialchars($contenu['id']); ?>">
                                 <select name="content-type[]" class="block w-1/3 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="video" <?= $contenu['type'] == 'vidéo' ? 'selected' : ''; ?>>Vidéo</option>
                                     <option value="document" <?= $contenu['type'] == 'document' ? 'selected' : ''; ?>>Document</option>
@@ -107,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="button" id="add-content" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">Ajouter un Contenu</button>
                 </div>
 
-                <!-- Boutons -->
+
                 <div class="flex justify-end space-x-4">
                     <a href="teacher-manageCourses.php" class="px-4 py-2 bg-gray-400 text-white rounded-lg shadow hover:bg-gray-500">Annuler</a>
                     <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">Enregistrer</button>
