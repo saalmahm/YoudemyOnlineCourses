@@ -30,13 +30,19 @@ class Cours {
         $this->id = $this->db->lastInsertId();
     }    
     
-    public function getTotalCours() {
-        $query = "SELECT COUNT(*) AS total FROM Cours";
-        $stmt = $this->db->query($query);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['total'];
+
+    public function getTotalCours($user_id = null) {
+            if ($user_id) {
+                $query = "SELECT COUNT(*) AS total FROM Cours WHERE created_by = ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([$user_id]);
+            } else {
+                $query = "SELECT COUNT(*) AS total FROM Cours";
+                $stmt = $this->db->query($query);
+            }
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total'];
     }
-    
 
     public function recupererTousLesCours() {
         $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom, Utilisateur.nom AS enseignant_nom 
