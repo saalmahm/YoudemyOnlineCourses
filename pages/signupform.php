@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = User::créeCompte($conn, $nom, $email, $role, $password);
 
         if($result === true) {
-            header("Location: dashboard.php"); 
+            header("Location: login.php"); 
             exit();
         } else {
             $errorMessage = $result;

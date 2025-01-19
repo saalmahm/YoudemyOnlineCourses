@@ -72,7 +72,7 @@
         </select>
     </div>
 
-    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an Account</button>
+<button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an Account</button>
 
     <p class="text-sm font-light text-gray-500 text-center">
         Already have an account? 

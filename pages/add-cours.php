@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $contentTypes = $_POST['content-type'];
         $contentFiles = $_FILES['content-file'];
 
-        for ($i = 0; $i < count($contentTypes); $i++) {
+        for ($i = 0; $i < count($contentTypes); $i++) {  // Note the use of $i
             $contentType = $contentTypes[$i];
             $contentFile = $contentFiles['tmp_name'][$i];
             $contentFileName = $contentFiles['name'][$i];
@@ -45,8 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "Erreur lors de l'upload du fichier : " . $_FILES['content-file']['error'][$i];
             }
         }
+        header("Location: teacher-manageCourses.php");
+        exit();
     } else {
         echo "Erreur lors de l'ajout du cours.";
     }
 }
 ?>
+

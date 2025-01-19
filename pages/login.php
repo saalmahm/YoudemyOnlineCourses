@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h1 class="text-2xl font-bold text-center text-green-700">
                         Sign in to your account
                     </h1>
-                    <form class="space-y-6" action="login.php" method="post">
+                    <form class="space-y-6" method="post">
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
                                 Your Email

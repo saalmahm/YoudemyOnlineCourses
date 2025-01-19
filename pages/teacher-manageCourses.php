@@ -1,10 +1,24 @@
 <?php
+
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
     header("Location: login.php");
     exit();
 }
+
+require '../db.php';
+require '../classes/Cours.php';
+
+$cours = new Cours($conn);
+$user_id = $_SESSION['user_id'];
+$tousLesCours = $cours->recupererEnseignantCours($user_id);
+
+// Vérifiez si $tousLesCours est défini et contient des cours
+if ($tousLesCours === false) {
+    $tousLesCours = [];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,11 +63,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
     <main class="flex-grow p-6">
     <header class="flex justify-between items-center mb-8">
         <h2 class="text-3xl font-bold text-indigo-700">Welcome Teacher,</h2>
-        <!-- Bouton pour ouvrir la modal -->
         <button id="open-modal" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" > Add New Course  </button>
     </header>
 
-    <!-- Modal -->
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
         <div class="flex justify-between items-center mb-4">
@@ -124,11 +136,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
     </div>
 </div>
 
-
-
-
-      <!-- Tableau des Cours -->
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+<!-- Tableau des Cours -->
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -142,23 +151,17 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
         </thead>
         <tbody>
             <?php
-                require '../db.php';
-                require '../classes/Cours.php';
+            foreach ($tousLesCours as $coursInfo) {
+                $contenus = $cours->recupererContenusParCours($coursInfo['id']);
+                $tags = $cours->recupererTagsParCours($coursInfo['id']);
 
-                $cours = new Cours($conn);
-                $tousLesCours = $cours->recupererTousLesCours();
+                $contenusStr = implode(", ", array_map(function($contenu) {
+                    return ucfirst($contenu['type']);
+                }, $contenus));
 
-                foreach ($tousLesCours as $coursInfo) {
-                    $contenus = $cours->recupererContenusParCours($coursInfo['id']);
-                    $tags = $cours->recupererTagsParCours($coursInfo['id']);
-
-                    $contenusStr = implode(", ", array_map(function($contenu) {
-                        return ucfirst($contenu['type']);
-                    }, $contenus));
-
-                    $tagsStr = implode(", ", array_map(function($tag) {
-                        return ucfirst($tag['nom']);
-                    }, $tags));
+                $tagsStr = implode(", ", array_map(function($tag) {
+                    return ucfirst($tag['nom']);
+                }, $tags));
             ?>
             <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -177,19 +180,21 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
                     <?= htmlspecialchars($coursInfo['categorie_nom']) ?>
                 </td>
                 <td class="px-6 py-4 flex space-x-4">
-                <a href="./teacher-edit-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
-                <a href="./teacher-delete-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>                </td>
+                    <a href="./teacher-edit-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                    <a href="./teacher-delete-cours.php?id=<?= $coursInfo['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
+                </td>
             </tr>
             <?php } ?>
         </tbody>
     </table>
 </div>
 
+
+
     </main>
   </div>
 
   <script>
-  // Get elements
   const modal = document.getElementById("modal");
   const openModal = document.getElementById("open-modal");
   const closeModal = document.getElementById("close-modal");
@@ -197,12 +202,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
   const addContent = document.getElementById("add-content");
   const contentFields = document.getElementById("content-fields");
 
-  // Open modal
   openModal.addEventListener("click", () => {
     modal.classList.remove("hidden");
   });
 
-  // Close modal
   [closeModal, cancelModal].forEach((button) => {
     button.addEventListener("click", () => {
       modal.classList.add("hidden");

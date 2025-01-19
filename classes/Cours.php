@@ -51,11 +51,12 @@ class Cours {
     public function recupererEnseignantCours($user_id) {
         $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom FROM Cours 
                   JOIN Catégorie ON Cours.catégorie_id = Catégorie.id
-                  WHERE cours.created_by = ?";
+                  WHERE Cours.created_by = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }    
+    }
+    
 
     public function recupererContenusParCours($cours_id) {
         $query = "SELECT * FROM contenu WHERE cours_id = ?";
