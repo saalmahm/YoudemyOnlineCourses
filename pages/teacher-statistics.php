@@ -10,7 +10,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
 }
 
 $cours = new Cours($conn);
-$totalCours = $cours->getTotalCours();
+$user_id = $_SESSION['user_id'];
+$totalCours = $cours->getTotalCours($user_id);
 ?>
 
 <!DOCTYPE html>
