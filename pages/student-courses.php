@@ -16,69 +16,55 @@ function getCourses($conn) {
 
 $coursesList = getCourses($conn);
 ?>
-
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .tag {
-            background-color: #e0f7fa;
-            color: #00796b;
-            border-radius: 9999px;
-        }
-        .tag:hover {
-            background-color: #b2ebf2;
-            color: #004d40;
-        }
-        .course-card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease-in-out;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
-
-<header class="flex justify-between p-4 fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-    <a href="/index.php" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-        <img src="/images/icon-learning.png" class="h-8" alt="Youdemy Logo" />
-        <span class="text-2xl font-bold whitespace-nowrap dark:text-gray-500"> Youdemy</span>
-    </a>
-    <div class="lg:hidden" id="burger-icon">
-        <img src="/images/menu.png" alt="Menu">
-    </div>
-    <div id="sidebar" class="shadow-xl fixed top-0 right-0 w-1/3 h-full bg-gray-200 z-50 transform translate-x-full duration-300">
-        <div class="flex justify-end p-4">
-            <button id="close-sidebar" class="text-3xl">X</button>
-        </div>
-        <div class="flex flex-col items-center space-y-4 text-white">
-            <a href="/index.php" class="text-black text-lg">Home</a>
-            <a href="courses.php" class="text-black text-lg">Courses</a>
-                <a href="/pages/signup.php" class="text-green-700 text-lg">Sign Up</a>
-            
-        </div>
-    </div>
-    <div class="hidden lg:flex justify-center space-x-4">
-        <ul class="flex items-center text-sm font-medium text-gray-400 mb-0">
-            <li><a href="/index.php" class="hover:underline me-4 md:me-6">Home</a></li>
-            <li><a href="courses.php" class="hover:underline me-4 md:me-6">Courses</a></li>
-                <li>
-                    <a href="/pages/signup.php" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Sign Up</a>
-                </li>
-            
+<body class="bg-gray-100 font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-indigo-700 text-white flex flex-col">
+      <div class="p-6 text-center bg-indigo-800">
+        <h1 class="text-2xl font-bold">Student Page</h1>
+      </div>
+      <nav class="flex-grow p-4">
+        <ul>
+          <li class="mb-4">
+            <a href="/pages/teacher-statistics.php" class="flex items-center p-3 rounded hover:bg-indigo-600 transition">
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              My Courses
+            </a>
+          </li>
+          <li class="mb-4">
+            <a href="/pages/student-courses.php" class="flex items-center p-3 rounded hover:bg-indigo-600 transition">
+              <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              All courses
+            </a>
+          </li>
+          <li class="mb-4">
+          <div class="p-4 bg-indigo-800 mt-80">
+     <a href="/pages/logout.php" class="w-full bg-red-500 text-white py-2 px-10 rounded hover:bg-red-600 transition text-center">Logout</a>    
+      </div>
+          </li>
         </ul>
-    </div>
-</header>
+      </nav>
 
-<section class="pt-24 pb-16">
+    </aside>
+
+    <main class="flex-grow p-6">
+    <header class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-indigo-700">Welcome Student,</h2>
+    </header>
+    <section class= pb-16">
     <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-10">Explore Our Courses</h1>
         <div id="courses-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach ($coursesList as $course): ?>
                 <div class="course-card bg-white rounded-lg shadow-md p-4 flex flex-col space-y-3">
@@ -194,28 +180,7 @@ const menu = document.getElementById("burger-icon");
         sidebar.classList.remove("translate-x-0");   
     });
 </script>
+  </main>
+  </div>
 </body>
-<footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div class="sm:flex sm:items-center sm:justify-between">
-            <a href="/index.php" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                <img src="/images/icon-learning.png" class="h-8" alt="Youdemy Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"> Youdemy</span>
-            </a>
-            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                <li>
-                    <a href="/index.php" class="hover:underline me-4 md:me-6">Home</a>
-                </li>
-                <li>
-                    <a href="/pages/courses.php" class="hover:underline me-4 md:me-6">Courses</a>
-                </li>
-                <li>
-                    <a href="#about" class="hover:underline">About</a>
-                </li>
-            </ul>
-        </div>
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#" class="hover:underline">Youdemy™</a>. All Rights Reserved.</span>
-    </div>
-</footer>
 </html>
