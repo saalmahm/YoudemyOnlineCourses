@@ -27,114 +27,143 @@ if ($tousLesCours === false) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .nav-link {
+      background: linear-gradient(to right, #0066cc, #00ccff);
+      color: white;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    .nav-link:hover {
+      background: linear-gradient(to right, #004d99, #0099cc);
+    }
+    .nav-link svg {
+      margin-right: 0.75rem;
+    }
+    .logout-btn {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-indigo-700 text-white flex flex-col">
-      <div class="p-6 text-center bg-indigo-800">
+    <aside class="w-64 bg-blue-700 text-white flex flex-col relative">
+      <div class="p-6 text-center bg-blue-800">
         <h1 class="text-2xl font-bold">Teacher Dashboard</h1>
       </div>
       <nav class="flex-grow p-4">
         <ul>
-          <li class="mb-4">
-            <a href="/pages/teacher-statistics.php" class="flex items-center p-3 rounded hover:bg-indigo-600 transition">
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <li>
+            <a href="/pages/teacher-statistics.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 6h16M4 12h16M4 18h7"></path>
               </svg>
               Statistiques
             </a>
           </li>
-          <li class="mb-4">
-            <a href="/pages/teacher-manageCourses.php" class="flex items-center p-3 rounded hover:bg-indigo-600 transition">
-              <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <li>
+            <a href="/pages/teacher-manageCourses.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 6h16M4 12h16M4 18h7"></path>
               </svg>
               Gestion des Cours
             </a>
           </li>
+          <li>
+            <a href="/pages/logout.php" class="nav-link logout-btn">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12h6M12 15v-6M19 12a7 7 0 11-14 0a7 7 0 0114 0z"></path>
+              </svg>
+              Logout
+            </a>    
+          </li>
         </ul>
       </nav>
-      <div class="p-4 bg-indigo-800">
-     <a href="/pages/logout.php" class="w-full bg-red-500 text-white py-2 px-10 rounded hover:bg-red-600 transition text-center">Déconnexion</a>    
-      </div>
     </aside>
 
-    <main class="flex-grow p-6">
-    <header class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-indigo-700">Welcome Teacher,</h2>
-        <button id="open-modal" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" > Add New Course  </button>
-    </header>
 
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
-        <div class="flex justify-between items-center mb-4">
+    <main class="flex-grow p-6">
+      <header class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-blue-700">Welcome Teacher,</h2>
+        <button id="open-modal" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add New Course</button>
+      </header>
+
+      <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
+          <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-700">Add New Course</h2>
             <button id="close-modal" class="text-gray-500 hover:text-gray-700 font-bold text-lg">×</button>
-        </div>
-        <form id="course-form" method="POST" action="./add-cours.php" enctype="multipart/form-data">
+          </div>
+          <form id="course-form" method="POST" action="./add-cours.php" enctype="multipart/form-data">
             <!-- Section Cours -->
             <div class="mb-4">
-                <label for="course-title" class="block text-sm font-medium text-gray-700">Course Title</label>
-                <input type="text" id="course-title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course title" required />
+              <label for="course-title" class="block text-sm font-medium text-gray-700">Course Title</label>
+              <input type="text" id="course-title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course title" required />
             </div>
             <div class="mb-4">
-                <label for="course-description" class="block text-sm font-medium text-gray-700">Course Description</label>
-                <textarea id="course-description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course description" required></textarea>
+              <label for="course-description" class="block text-sm font-medium text-gray-700">Course Description</label>
+              <textarea id="course-description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course description" required></textarea>
             </div>
             <div class="mb-4">
-                <label for="course-category" class="block text-sm font-medium text-gray-700">Category</label>
-                <?php
-                    require_once '../db.php'; 
-                    require_once '../classes/Categorie.php'; 
-                    require_once '../classes/Tag.php'; 
+              <label for="course-category" class="block text-sm font-medium text-gray-700">Category</label>
+              <?php
+                require_once '../db.php'; 
+                require_once '../classes/Categorie.php'; 
+                require_once '../classes/Tag.php'; 
 
-                    $categorie = new Categorie($conn);
-                    $categories = $categorie->recupererCategories();
+                $categorie = new Categorie($conn);
+                $categories = $categorie->recupererCategories();
 
-                    $tag = new Tag($conn);
-                    $tags = $tag->recupererTags();
-                ?>
-                <select id="course-category" name="category" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                    <option value="">Select a category</option>
-                    <?php foreach ($categories as $cat) : ?>
-                        <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
-                    <?php endforeach; ?>
-                </select>
+                $tag = new Tag($conn);
+                $tags = $tag->recupererTags();
+              ?>
+              <select id="course-category" name="category" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Select a category</option>
+                <?php foreach ($categories as $cat) : ?>
+                  <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
             <!-- Section Tags -->
             <div class="mb-4">
-                <label for="course-tags" class="block text-sm font-medium text-gray-700">Tags</label>
-                <select id="course-tags" name="tags[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" multiple required>
-                    <?php foreach ($tags as $tag) : ?>
-                        <option value="<?= htmlspecialchars($tag['id']) ?>"><?= htmlspecialchars($tag['nom']) ?></option>
-                    <?php endforeach; ?>
-                </select>
+              <label for="course-tags" class="block text-sm font-medium text-gray-700">Tags</label>
+              <select id="course-tags" name="tags[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" multiple required>
+                <?php foreach ($tags as $tag) : ?>
+                  <option value="<?= htmlspecialchars($tag['id']) ?>"><?= htmlspecialchars($tag['nom']) ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
             <!-- Section Contenus -->
             <div id="content-section" class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Contents</label>
-                <div id="content-fields" class="space-y-4">
-                    <div class="content-item flex space-x-4 items-center">
-                        <select name="content-type[]" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="">Select content type</option>
-                            <option value="video">Video</option>
-                            <option value="document">Document</option>
-                        </select>
-                        <input type="file" name="content-file[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
-                        <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
-                    </div>
+              <label class="block text-sm font-medium text-gray-700">Contents</label>
+              <div id="content-fields" class="space-y-4">
+                <div class="content-item flex space-x-4 items-center">
+                  <select name="content-type[]" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    <option value="">Select content type</option>
+                    <option value="video">Video</option>
+                    <option value="document">Document</option>
+                  </select>
+                  <input type="file" name="content-file[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+                  <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
                 </div>
-                <button id="add-content" type="button" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add Content</button>
+              </div>
+              <button id="add-content" type="button" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add Content</button>
             </div>
             <!-- Boutons d'action -->
             <div class="flex justify-end space-x-2">
-                <button type="button" id="cancel-modal" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Add Course</button>
+              <button type="button" id="cancel-modal" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Add Course</button>
             </div>
-        </form>
-    </div>
-</div>
+          </form>
+        </div>
+      </div>
+ 
 
 <!-- Tableau des Cours -->
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

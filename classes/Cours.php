@@ -32,16 +32,26 @@ class Cours {
     
 
     public function getTotalCours($user_id = null) {
-            if ($user_id) {
-                $query = "SELECT COUNT(*) AS total FROM Cours WHERE created_by = ?";
-                $stmt = $this->db->prepare($query);
-                $stmt->execute([$user_id]);
-            } else {
-                $query = "SELECT COUNT(*) AS total FROM Cours";
-                $stmt = $this->db->query($query);
-            }
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['total'];
+        if ($user_id) {
+            $query = "SELECT COUNT(*) AS total FROM Cours WHERE created_by = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$user_id]);
+        } else {
+            $query = "SELECT COUNT(*) AS total FROM Cours";
+            $stmt = $this->db->query($query);
+        }
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
+    public function getTotalEtudiants($user_id) {
+        $query = "SELECT COUNT(*) AS total FROM ÉtudiantCours 
+                  JOIN Cours ON ÉtudiantCours.cours_id = Cours.id
+                  WHERE Cours.created_by = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$user_id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
     }
 
     public function recupererTousLesCours() {
