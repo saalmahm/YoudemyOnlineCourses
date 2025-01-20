@@ -27,10 +27,14 @@ class Etudiant extends User {
     }
 
     public function consulterCoursInscrits() {
-        $stmt = $this->pdo->prepare("SELECT Cours.titre, Cours.description FROM ÉtudiantCours JOIN Cours ON ÉtudiantCours.cours_id = Cours.id WHERE ÉtudiantCours.étudiant_id = :etudiant_id");
+        $stmt = $this->pdo->prepare("SELECT Cours.id, Cours.titre, Cours.description 
+                                     FROM ÉtudiantCours 
+                                     JOIN Cours ON ÉtudiantCours.cours_id = Cours.id 
+                                     WHERE ÉtudiantCours.étudiant_id = :etudiant_id");
         $stmt->execute(['etudiant_id' => $this->id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     
 }

@@ -9,10 +9,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'étudiant') {
 require_once '../db.php';
 require_once '../classes/Etudiant.php';
 
+// Récupérer l'ID de l'utilisateur connecté
 $userId = $_SESSION['user_id'];
 
 $etudiant = new Etudiant($conn, $userId, '', '', '');
 
+// Récupérer la liste des cours inscrits
 $coursesList = $etudiant->consulterCoursInscrits();
 ?>
 <!DOCTYPE html>
@@ -62,20 +64,25 @@ $coursesList = $etudiant->consulterCoursInscrits();
         <h2 class="text-3xl font-bold text-indigo-700">Welcome Student,</h2>
     </header>
     
-    <!--test pour afficher les cours inscrit -->
+    <!-- Section pour afficher les cours inscrits -->
     <section class="pb-16">
-      <div class="container mx-auto px-4">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Mes Cours</h2>
-        <div id="courses-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="container mx-auto px-4">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Mes Cours</h2>
+    <div id="courses-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <?php if (!empty($coursesList) && is_array($coursesList)): ?>
             <?php foreach ($coursesList as $course): ?>
                 <div class="course-card bg-white rounded-lg shadow-md p-4 flex flex-col space-y-3">
-                    <h2 class="text-xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($course['titre']) ?></h2>
-                    <p class="text-gray-600 mb-2"><?= htmlspecialchars($course['description']) ?></p>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($course['titre'] ?? '') ?></h2>
+                    <p class="text-gray-600 mb-2"><?= htmlspecialchars($course['description'] ?? '') ?></p>
+                    <a href="/pages/course-details.php?id=<?= htmlspecialchars($course['id'] ?? '') ?>" class="text-indigo-500 hover:underline">Voir détails</a>
                 </div>
             <?php endforeach; ?>
-        </div>
-      </div>
-    </section>
+        <?php else: ?>
+            <p class="text-center text-gray-600">Aucun cours inscrit pour le moment.</p>
+        <?php endif; ?>
+    </div>
+  </div>
+</section>
   </main>
   </div>
 </body>

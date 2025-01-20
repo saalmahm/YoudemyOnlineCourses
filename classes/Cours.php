@@ -62,14 +62,14 @@ class Cours {
         $stmt->execute([$user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-
+        
     public function recupererContenusParCours($cours_id) {
         $query = "SELECT * FROM contenu WHERE cours_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$cours_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     public function recupererTagsParCours($cours_id) {
         $query = "SELECT tag.nom FROM tag
@@ -116,13 +116,13 @@ class Cours {
         $stmt->execute([$cours_id]);
     }
     
-    
     public function recupererUnCours($id) {
         $query = "SELECT * FROM Cours WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
 
     public function filtrerCoursParCategorie($categorie_id) {
         $query = "SELECT * FROM Cours WHERE catégorie_id = ?";
