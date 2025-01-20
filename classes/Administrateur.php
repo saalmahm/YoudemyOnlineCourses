@@ -1,5 +1,5 @@
-<?php 
-require_once 'User.php'; // Assurez-vous que le chemin est correct en fonction de l'emplacement réel de User.php
+<?php
+require_once 'User.php';
 
 class Administrateur extends User {
     private $utilisateurs = [];
@@ -35,23 +35,18 @@ class Administrateur extends User {
         return $row['total'];
     }
 
-    public function consulterStatistiquesGlobales() {
-        $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM Cours");
-        $row = $stmt->fetch();
-        echo "Nombre total de cours: " . $row['total'] . "<br>";
-
+    public function repartitionCoursParCategorie() {
         $stmt = $this->pdo->query("SELECT Catégorie.nom, COUNT(Cours.id) as total FROM Cours JOIN Catégorie ON Cours.catégorie_id = Catégorie.id GROUP BY Catégorie.nom");
-        echo "Répartition par catégorie:<br>";
-        while ($row = $stmt->fetch()) {
-            echo "Catégorie: " . $row['nom'] . " - Total: " . $row['total'] . "<br>";
-        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function coursPlusPopulaire() {
         $stmt = $this->pdo->query("SELECT Cours.titre, COUNT(ÉtudiantCours.cours_id) as total FROM ÉtudiantCours JOIN Cours ON ÉtudiantCours.cours_id = Cours.id GROUP BY ÉtudiantCours.cours_id ORDER BY total DESC LIMIT 1");
-        $row = $stmt->fetch();
-        echo "Cours le plus populaire: " . $row['titre'] . " - Total d'inscriptions: " . $row['total'] . "<br>";
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-        $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM Utilisateur");
-        $row = $stmt->fetch();
-        echo "Nombre total d'utilisateurs: " . $row['total'] . "<br>";
+    public function topEnseignants() {
+        $stmt = $this->pdo->query("SELECT Utilisateur.nom, COUNT(Cours.id) as nombre_cours FROM Cours JOIN Utilisateur ON Cours.created_by = Utilisateur.id GROUP BY Utilisateur.nom ORDER BY nombre_cours DESC LIMIT 3");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
