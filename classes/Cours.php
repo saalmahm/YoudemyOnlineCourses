@@ -160,6 +160,20 @@ class Cours {
         $stmt->execute([$this->id, $tag_id]);
     }
 
+    public function getCoursLePlusPopulaire($user_id) {
+        $query = "SELECT Cours.titre, COUNT(ÉtudiantCours.cours_id) as total 
+                  FROM ÉtudiantCours 
+                  JOIN Cours ON ÉtudiantCours.cours_id = Cours.id 
+                  WHERE Cours.created_by = ? 
+                  GROUP BY ÉtudiantCours.cours_id 
+                  ORDER BY total DESC 
+                  LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$user_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+
     public function getId() {
         return $this->id;
     }
