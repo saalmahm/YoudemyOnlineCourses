@@ -15,6 +15,13 @@ function getCourses($conn) {
 }
 
 $coursesList = getCourses($conn);
+
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'étudiant') {
+    header("Location: login.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,32 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const registerButtons = document.querySelectorAll('.register-course');
 
     registerButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const courseCard = button.closest('.course-card');
-            const courseTitle = courseCard.querySelector('.text-xl').innerText;
-            alert(`You are registered for the course: ${courseTitle}`);
-            // Add your registration logic here
-        });
-    });
-});
-const menu = document.getElementById("burger-icon");
-    const sidebar = document.getElementById("sidebar");
-    const closeSidebar = document.getElementById("close-sidebar");
-
-    menu.addEventListener("click", () => {
-        sidebar.classList.remove("translate-x-full");  
-        sidebar.classList.add("translate-x-0");
-    });
-
-    closeSidebar.addEventListener("click", () => {
-        sidebar.classList.add("translate-x-full");    
-        sidebar.classList.remove("translate-x-0");   
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-    const registerButtons = document.querySelectorAll('.register-course');
-
-    registerButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
             e.preventDefault();
             const courseId = button.getAttribute('data-id');
@@ -155,6 +136,7 @@ const menu = document.getElementById("burger-icon");
         });
     });
 });
+
 
 </script>
   </main>

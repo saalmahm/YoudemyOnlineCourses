@@ -1,22 +1,25 @@
 <?php
-require_once '../db.php'; // Connexion à la base de données
-require_once '../classes/Etudiant.php'; // Classe Etudiant
-
 session_start();
+require_once '../db.php';
+require_once '../classes/Etudiant.php'; 
 
-// Vérifie si l'utilisateur est connecté et est un étudiant
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'étudiant') {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-    exit;
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'étudiant') {
+    echo json_encode(['success' => false, 'message' => 'Accès refusé.']);
+    exit();
 }
 
-$etudiantId = $_SESSION['user_id'];
-$coursId = $_POST['cours_id'];
+$userId = $_SESSION['user_id'];
+$coursId = $_POST['cours_id'] ?? '';
+
+if (empty($coursId)) {
+    echo json_encode(['success' => false, 'message' => 'ID de cours manquant.']);
+    exit();
+}
 
 try {
-    $etudiant = new Etudiant($conn, $etudiantId, $_SESSION['nom'], $_SESSION['email'], $_SESSION['password']);
+    $etudiant = new Etudiant($conn, $userId, '', '', ''); 
     $etudiant->sinscrireCours($coursId);
-    echo json_encode(['success' => true, 'message' => 'Inscription réussie']);
+    echo json_encode(['success' => true, 'message' => 'Inscription réussie.']);
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
