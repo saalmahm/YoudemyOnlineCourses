@@ -13,6 +13,7 @@ class Tag {
     public function getId() {
         return $this->id;
     }
+
     public function setNom($nom) {
         $this->nom = $nom;
     }
@@ -27,11 +28,10 @@ class Tag {
         $this->id = $this->db->lastInsertId();
     }
 
-    public function modifierTag($nom) {
-        $this->setNom($nom);
+    public function modifierTag($id, $nom) {
         $query = "UPDATE tag SET nom = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$nom, $this->id]);
+        $stmt->execute([$nom, $id]);
     }
 
     public function supprimerTag() {
@@ -57,4 +57,3 @@ class Tag {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
-
