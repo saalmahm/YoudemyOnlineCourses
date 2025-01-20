@@ -8,11 +8,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'enseignant') {
     header("Location: login.php");
     exit();
 }
-
 $cours = new Cours($conn);
 $user_id = $_SESSION['user_id'];
 $totalCours = $cours->getTotalCours($user_id);
 $totalEtudiants = $cours->getTotalEtudiants($user_id);
+$mostPopularCourse = $cours->getCoursLePlusPopulaire($user_id);
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ $totalEtudiants = $cours->getTotalEtudiants($user_id);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>Teacher Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .nav-link {
@@ -98,7 +98,7 @@ $totalEtudiants = $cours->getTotalEtudiants($user_id);
         </div>
         <div class="bg-gradient-to-r from-blue-400 to-red-500 text-white shadow-lg rounded-lg p-6">
           <h3 class="text-lg font-semibold mb-2">Cours les Plus Populaires</h3>
-          <p class="text-4xl font-bold">"Introduction à PHP"</p>
+          <p class="text-4xl font-bold"><?php echo htmlspecialchars($mostPopularCourse['titre']); ?></p>
         </div>
       </div>
     </main>
