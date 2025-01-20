@@ -1,5 +1,5 @@
 <?php
-require_once 'User.php'; // Assure-toi que ce chemin est correct et pointe vers le fichier User.php
+require_once 'User.php';
 
 class Etudiant extends User {
     private $coursInscrit = [];

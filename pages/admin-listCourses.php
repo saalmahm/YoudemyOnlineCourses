@@ -145,7 +145,7 @@ $cours = $coursObj->recupererTousLesCours();
         <a href="admin-contenu-cours.php?id=<?= htmlspecialchars($coursItem['id']) ?>" class="text-blue-600 hover:underline">Voir le contenu</a>
     </td>
     <td class="px-6 py-4 flex space-x-4">
-        <a href="./admin-supprimer-cours.php?id=<?= $coursItem['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
+        <a href="/pages/admin-supprimer-cours.php?id=<?= $coursItem['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
     </td>
 </tr>
 <?php endforeach; ?>

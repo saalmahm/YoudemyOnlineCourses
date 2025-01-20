@@ -1,4 +1,6 @@
 <?php 
+require_once 'User.php'; // Assurez-vous que le chemin est correct en fonction de l'emplacement réel de User.php
+
 class Administrateur extends User {
     private $utilisateurs = [];
     private $cours = [];
