@@ -2,9 +2,9 @@
 require_once '../db.php'; 
 require_once '../classes/Cours.php'; 
 
-function getCourses($conn) {
+function getCourses($conn, $limite, $offset) {
     $cours = new Cours($conn);
-    $coursesList = $cours->recupererTousLesCours();
+    $coursesList = $cours->recupererCoursAvecPagination($limite, $offset);
 
     foreach ($coursesList as &$course) {
         $courseTags = $cours->recupererTagsParCours($course['id']);
@@ -14,7 +14,17 @@ function getCourses($conn) {
     return $coursesList;
 }
 
-$coursesList = getCourses($conn);
+$limite = 3; 
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+
+$offset = ($page - 1) * $limite;
+
+$coursesList = getCourses($conn, $limite, $offset);
+
+$cours = new Cours($conn);
+$totalCours = $cours->compterTotalCours();
+
+$totalPages = ceil($totalCours / $limite);
 
 session_start();
 
@@ -127,6 +137,17 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'étudiant') {
                 </div>
               </div>
             <?php endforeach; ?>
+          </div>
+          <div class="flex justify-center mt-8">
+            <nav>
+              <ul class="flex space-x-4">
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                  <li>
+                    <a href="?page=<?= $i ?>" class="px-4 py-2 border <?= ($i === $page) ? 'bg-gray-300' : 'bg-white' ?>"><?= $i ?></a>
+                  </li>
+                <?php endfor; ?>
+              </ul>
+            </nav>
           </div>
         </div>
       </section>
