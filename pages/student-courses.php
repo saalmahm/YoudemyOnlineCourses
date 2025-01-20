@@ -42,9 +42,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'étudiant') {
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .logout-btn {
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
-      color: white;
+    background: linear-gradient(to right, #ff4c4c, #ff1a1a); /* Red gradient */
+    color: white;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
     }
+
     .nav-link {
       background: linear-gradient(to right, #11998e, #38ef7d);
       color: white;
@@ -89,7 +96,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'étudiant') {
             </a>
           </li>
           <li>
-            <a href="/pages/logout.php" class="nav-link logout-btn">
+            <a href="/pages/logout.php" class="logout-btn">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 12h6M12 15v-6M19 12a7 7 0 11-14 0a7 7 0 0114 0z"></path>
               </svg>
