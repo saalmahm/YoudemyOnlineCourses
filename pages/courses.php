@@ -79,6 +79,9 @@ $coursesList = getCourses($conn);
 <section class="pt-24 pb-16">
     <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-10">Explore Our Courses</h1>
+        <div class="mb-8"> 
+            <input type="text" id="search-keywords" class="w-full p-2 border border-gray-300 rounded" placeholder="Search courses by keywords...">
+        </div>
         <div id="courses-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach ($coursesList as $course): ?>
                 <div class="course-card bg-white rounded-lg shadow-md p-4 flex flex-col space-y-3">
@@ -119,6 +122,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const menu = document.getElementById("burger-icon");
     const sidebar = document.getElementById("sidebar");
     const closeSidebar = document.getElementById("close-sidebar");
+    const searchInput = document.getElementById("search-keywords");
+    const coursesContainer = document.getElementById("courses-container");
 
     menu.addEventListener("click", () => {
         sidebar.classList.remove("translate-x-full");  
@@ -129,8 +134,26 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.add("translate-x-full");    
         sidebar.classList.remove("translate-x-0");   
     });
+
+    searchInput.addEventListener("keyup", () => {
+        const searchValue = searchInput.value.toLowerCase();
+        const courseCards = coursesContainer.getElementsByClassName("course-card");
+
+        Array.from(courseCards).forEach(card => {
+            const title = card.querySelector("h2").textContent.toLowerCase();
+            const description = card.querySelector("p").textContent.toLowerCase();
+            const tags = Array.from(card.getElementsByClassName("tag")).map(tag => tag.textContent.toLowerCase());
+
+            if (title.includes(searchValue) || description.includes(searchValue) || tags.some(tag => tag.includes(searchValue))) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
 });
 </script>
+
 
 
 </body>
