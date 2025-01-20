@@ -85,7 +85,7 @@ $cours = $coursObj->recupererTousLesCours();
             </a>
           </li>
           <li>
-            <a href="/pages/teacher-statistics.php" class="nav-link">
+            <a href="/pages/admin-listCategories.php" class="nav-link">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 6h16M4 12h16M4 18h7"></path>
               </svg>
