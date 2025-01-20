@@ -35,15 +35,16 @@ class Categorie {
             $stmt->execute([$nom, $this->id]);
         }
     
-        public function supprimerCategorie() {
+        public function supprimerCategorie($id) {
             $query = "DELETE FROM cours WHERE categorie_id = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$this->id]);
-    
+            $stmt->execute([$id]);
+        
             $query = "DELETE FROM Catégorie WHERE id = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$this->id]);
+            $stmt->execute([$id]);
         }
+        
     
         public function recupererCategories() {
             try {
