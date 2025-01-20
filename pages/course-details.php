@@ -27,6 +27,25 @@ $courseContents = $cours->recupererContenusParCours($coursId);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Détails du cours</title>
+  <style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 75%; 
+    }
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+  </style>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -36,7 +55,16 @@ $courseContents = $cours->recupererContenusParCours($coursId);
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Contenu du cours</h2>
     <ul class="list-disc list-inside">
         <?php foreach ($courseContents as $content): ?>
-            <li class="text-gray-600"><?= htmlspecialchars($content['titre'] ?? '') ?>: <?= htmlspecialchars($content['data'] ?? '') ?></li>
+            <li class="text-gray-600">
+                <?= htmlspecialchars($content['titre'] ?? '') ?>:
+                <?php if ($content['type'] === 'document' && pathinfo($content['data'], PATHINFO_EXTENSION) === 'pdf'): ?>
+                    <div class="iframe-container">
+                        <iframe src="<?= htmlspecialchars($content['data'] ?? '') ?>"></iframe>
+                    </div>
+                <?php else: ?>
+                    <?= htmlspecialchars($content['data'] ?? '') ?>
+                <?php endif; ?>
+            </li>
         <?php endforeach; ?>
     </ul>
     <a href="/pages/student-courses.php" class="text-indigo-500 hover:underline mt-4 inline-block">Retour à la liste des cours</a>

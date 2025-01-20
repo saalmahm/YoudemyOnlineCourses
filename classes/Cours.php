@@ -64,7 +64,7 @@ class Cours {
     }
         
     public function recupererContenusParCours($cours_id) {
-        $query = "SELECT * FROM contenu WHERE cours_id = ?";
+        $query = "SELECT * FROM Contenu WHERE cours_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$cours_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
