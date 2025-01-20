@@ -28,12 +28,11 @@ class Categorie {
             $this->id = $this->db->lastInsertId();
         }
     
-        public function modifierCategorie($nom) {
-            $this->setNom($nom);
+        public function modifierCategorie($id, $nom) {
             $query = "UPDATE Catégorie SET nom = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$nom, $this->id]);
-        }
+            $stmt->execute([$nom, $id]);
+        }        
     
         public function supprimerCategorie($id) {
             $query = "DELETE FROM Cours WHERE catégorie_id = ?";
@@ -44,8 +43,6 @@ class Categorie {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
         }
-        
-        
     
         public function recupererCategories() {
             try {
