@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../db.php';
-require_once '../classes/User.php'; // Inclure la classe User
+require_once '../classes/User.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['usernameOrEmail'];
@@ -11,15 +11,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isConnected = User::seConnecter($conn, $email, $password);
 
         if ($isConnected) {
-            header("Location: teacher-statistics.php");
+            if ($_SESSION['user_role'] === 'étudiant') {
+                header("Location: /pages/student-courses.php");
+            } elseif ($_SESSION['user_role'] === 'enseignant') {
+                header("Location: teacher-statistics.php");
+            }
             exit();
         } else {
-            echo "<p class='text-red-500 text-center'>Invalid credentials. Please try again.</p>";
+            echo "<p class='text-red-500 text-center'>Identifiants invalides. Veuillez réessayer.</p>";
         }
     } catch (Exception $e) {
         echo "<p class='text-red-500 text-center'>{$e->getMessage()}</p>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
