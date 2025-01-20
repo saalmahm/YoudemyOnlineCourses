@@ -31,6 +31,10 @@ abstract class User {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
         if ($user && password_verify($password, $user['mot_de_passe'])) {
+            if (!$user['active']) {
+                throw new Exception("Compte inactif. Veuillez contacter l'administrateur.");
+            }
+    
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
@@ -45,6 +49,7 @@ abstract class User {
             throw new Exception("Échec de la connexion. Vérifiez vos identifiants.");
         }
     }
+    
       
     public function afficherProfil() {
         echo "Nom: $this->nom<br>";

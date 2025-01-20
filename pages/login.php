@@ -19,15 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: /pages/admin-listUsers.php");
             }
             exit();
-        } else {
-            echo "<p class='text-red-500 text-center'>Identifiants invalides. Veuillez réessayer.</p>";
         }
     } catch (Exception $e) {
         echo "<p class='text-red-500 text-center'>{$e->getMessage()}</p>";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
