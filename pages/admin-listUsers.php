@@ -113,51 +113,54 @@ $utilisateurs = $admin->afficherUsers();
         <h2 class="text-3xl font-bold text-blue-700">Welcome Admin,</h2>
       </header>
 
-      <!-- Tableau des Utilisateurs -->
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                      <th scope="col" class="px-6 py-3">ID</th>
-                      <th scope="col" class="px-6 py-3">Nom</th>
-                      <th scope="col" class="px-6 py-3">Email</th>
-                      <th scope="col" class="px-6 py-3">Rôle</th>
-                      <th scope="col" class="px-6 py-3">Statut</th>
-                      <th scope="col" class="px-6 py-3">Actions</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <?php foreach ($utilisateurs as $utilisateur): ?>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                          <?= htmlspecialchars($utilisateur['id']) ?>
-                      </th>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['nom']) ?>
-                      </td>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['email']) ?>
-                      </td>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['rôle']) ?>
-                      </td>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['active'] ? 'Actif' : 'Inactif') ?>
-                      </td>
-                      <td class="px-6 py-4 flex space-x-4">
-                        <?php if ($utilisateur['active']) { ?>
-                          <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
-                        <?php } else { ?>
-                          <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
-                        <?php } ?>
-                        <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
-                      </td>
-                  </tr>
-                  <?php endforeach; ?>
-              </tbody>
-          </table>
-      </div>
-    </main>
+    <!-- Tableau des Utilisateurs -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">ID</th>
+                    <th scope="col" class="px-6 py-3">Nom</th>
+                    <th scope="col" class="px-6 py-3">Email</th>
+                    <th scope="col" class="px-6 py-3">Rôle</th>
+                    <th scope="col" class="px-6 py-3">Statut</th>
+                    <th scope="col" class="px-6 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($utilisateurs as $utilisateur): ?>
+                    <?php if ($utilisateur['id'] !== $user_id): // Exclure l'utilisateur connecté ?>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                            <?= htmlspecialchars($utilisateur['id']) ?>
+                        </th>
+                        <td class="px-6 py-4">
+                            <?= htmlspecialchars($utilisateur['nom']) ?>
+                        </td>
+                        <td class="px-6 py-4">
+                            <?= htmlspecialchars($utilisateur['email']) ?>
+                        </td>
+                        <td class="px-6 py-4">
+                            <?= htmlspecialchars($utilisateur['rôle']) ?>
+                        </td>
+                        <td class="px-6 py-4">
+                            <?= htmlspecialchars($utilisateur['active'] ? 'Actif' : 'Inactif') ?>
+                        </td>
+                        <td class="px-6 py-4 flex space-x-4">
+                            <?php if ($utilisateur['active']) { ?>
+                                <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
+                            <?php } else { ?>
+                                <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
+                            <?php } ?>
+                            <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+</main>
   </div>
 </body>
 </html>
