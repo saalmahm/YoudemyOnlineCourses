@@ -173,6 +173,24 @@ class Cours {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
+    public function recupererCoursAvecPagination($limite, $offset) {
+        $query = "SELECT Cours.*, Catégorie.nom AS categorie_nom, Utilisateur.nom AS enseignant_nom
+                  FROM Cours
+                  JOIN Catégorie ON Cours.catégorie_id = Catégorie.id
+                  JOIN Utilisateur ON Cours.created_by = Utilisateur.id
+                  LIMIT $limite OFFSET $offset";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+        public function compterTotalCours() {
+            $query = "SELECT COUNT(*) as total FROM Cours";
+            $stmt = $this->db->query($query);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total'];
+        }
 
     public function getId() {
         return $this->id;
