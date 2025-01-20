@@ -113,12 +113,12 @@ $top_teachers = $admin->topEnseignants();
         </aside>
         <main class="flex-grow p-6 bg-gray-100">
     <header class="flex justify-between items-center mb-8">
-        <h2 class="text-4xl font-extrabold text-blue-800">Statistiques Globales</h2>
+        <h2 class="text-4xl font-extrabold text-blue-700">Statistiques Globales</h2>
     </header>
 
     <div class="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
         <!-- Nombre total de cours -->
-        <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg rounded-lg p-6 transition-transform hover:scale-105 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-teal-300 to-teal-500 text-black shadow-lg rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-2xl">
             <div class="flex items-center">
                 <div class="text-4xl mr-4">
                     <i class="fas fa-book"></i>
@@ -131,7 +131,7 @@ $top_teachers = $admin->topEnseignants();
         </div>
 
         <!-- Répartition des cours par catégorie -->
-        <div class="bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg rounded-lg p-6 transition-transform hover:scale-105 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-green-200 to-green-400 text-gray-800 shadow-lg rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-2xl">
             <div class="flex items-center">
                 <div class="text-4xl mr-4">
                     <i class="fas fa-layer-group"></i>
@@ -148,7 +148,7 @@ $top_teachers = $admin->topEnseignants();
         </div>
 
         <!-- Le cours avec le plus d'étudiants -->
-        <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg rounded-lg p-6 transition-transform hover:scale-105 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-purple-200 to-purple-400 text-gray-800 shadow-lg rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-2xl">
             <div class="flex items-center">
                 <div class="text-4xl mr-4">
                     <i class="fas fa-user-graduate"></i>
@@ -164,7 +164,7 @@ $top_teachers = $admin->topEnseignants();
         </div>
 
         <!-- Top 3 enseignants -->
-        <div class="bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg rounded-lg p-6 transition-transform hover:scale-105 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-pink-200 to-pink-400 text-gray-800 shadow-lg rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-2xl">
             <div class="flex items-center">
                 <div class="text-4xl mr-4">
                     <i class="fas fa-chalkboard-teacher"></i>
@@ -184,6 +184,7 @@ $top_teachers = $admin->topEnseignants();
         </div>
     </div>
 </main>
+
 
 
     </div>
