@@ -148,10 +148,11 @@ $utilisateurs = $admin->afficherUsers();
                           <?= htmlspecialchars($utilisateur['active'] ? 'Actif' : 'Inactif') ?>
                       </td>
                       <td class="px-6 py-4 flex space-x-4">
-                          <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
-                          <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
-                          <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
+                        <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
+                        <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
+                        <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
                       </td>
+
                   </tr>
                   <?php } ?>
               </tbody>
