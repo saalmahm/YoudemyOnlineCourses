@@ -102,9 +102,9 @@ $coursesList = getCourses($conn);
                         <?php endforeach; ?>
                     </div>
                     <div class="flex justify-end">
-                        <a href="#" class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 hover:from-teal-300 hover:to-lime-300 focus:ring-4 focus:outline-none focus:ring-lime-200 show-modal">
+                        <a href="login.php" class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 hover:from-teal-300 hover:to-lime-300 focus:ring-4 focus:outline-none focus:ring-lime-200">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white text-black rounded-md group-hover:bg-opacity-0">
-                            register for the course
+                                Register for the course
                             </span>
                         </a>
                     </div>
@@ -112,75 +112,11 @@ $coursesList = getCourses($conn);
             <?php endforeach; ?>
         </div>
     </div>
-
-    <!-- Modale de confirmation -->
-    <div id="confirmation-modal" class="hidden fixed z-10 inset-0 overflow-y-auto">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4m6 4a9 9 0 11-18 0a9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                            Confirmation                            </h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                You are about to enroll in this course. Do you want to continue?
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
-                    Confirm
-                    </button>
-                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm close-modal">
-                    Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('confirmation-modal');
-    const showModalButtons = document.querySelectorAll('.show-modal');
-    const closeModalButtons = document.querySelectorAll('.close-modal');
-
-    showModalButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.classList.remove('hidden');
-        });
-    });
-
-    closeModalButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-    });
-
-    // Optional: Close modal when clicking outside of it
-    window.addEventListener('click', (e) => {
-        if (e.target == modal) {
-            modal.classList.add('hidden');
-        }
-    });
-});
-const menu = document.getElementById("burger-icon");
+    const menu = document.getElementById("burger-icon");
     const sidebar = document.getElementById("sidebar");
     const closeSidebar = document.getElementById("close-sidebar");
 
@@ -193,7 +129,10 @@ const menu = document.getElementById("burger-icon");
         sidebar.classList.add("translate-x-full");    
         sidebar.classList.remove("translate-x-0");   
     });
+});
 </script>
+
+
 </body>
 <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
     <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
