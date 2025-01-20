@@ -15,6 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: /pages/student-courses.php");
             } elseif ($_SESSION['user_role'] === 'enseignant') {
                 header("Location: teacher-statistics.php");
+            } elseif ($_SESSION['user_role'] === 'admin') {
+                header("Location: /pages/admin-listUsers.php");
             }
             exit();
         } else {
@@ -24,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p class='text-red-500 text-center'>{$e->getMessage()}</p>";
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">

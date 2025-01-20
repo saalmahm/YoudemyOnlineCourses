@@ -22,12 +22,12 @@ class Administrateur extends User {
         $stmt->execute(['id' => $userId]);
     }
 
-    public function afficherUsers() {
-        $stmt = $this->pdo->query("SELECT * FROM Utilisateur");
-        while ($row = $stmt->fetch()) {
-            echo "Nom: " . $row["nom"] . " - Email: " . $row["email"] . " - Rôle: " . $row["rôle"] . "<br>";
-        }
+    public function afficherUsers()
+    {
+        $stmt = $this->pdo->query("SELECT id, nom, email, rôle, active FROM Utilisateur");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     public function totalCours() {
         $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM Cours");
