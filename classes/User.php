@@ -31,20 +31,21 @@ abstract class User {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
         if ($user && password_verify($password, $user['mot_de_passe'])) {
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['rôle'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_name'] = $user['nom']; 
-            $_SESSION['user_password'] = $password;
-            
+            $_SESSION['user_password'] = $password; 
+    
             return true;
         } else {
             throw new Exception("Échec de la connexion. Vérifiez vos identifiants.");
         }
     }
-    
-
+      
     public function afficherProfil() {
         echo "Nom: $this->nom<br>";
         echo "Email: $this->email<br>";

@@ -1,8 +1,7 @@
 <?php
-require_once '../db.php'; 
-require_once '../classes/User.php';
-require_once '../classes/Administrateur.php'; 
-
+require_once '../db.php';
+ require_once '../classes/User.php';
+  require_once '../classes/Administrateur.php';
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
@@ -10,8 +9,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     exit();
 }
 
-$admin = new Administrateur($conn, $_SESSION['user_id'], $_SESSION['user_name'], $_SESSION['user_email'], $_SESSION['user_password']);
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['user_name'] ?? 'Admin'; 
+$user_email = $_SESSION['user_email'] ?? '';
+$user_password = $_SESSION['user_password'] ?? '';
+
+$admin = new Administrateur($conn, $user_id, $user_name, $user_email, $user_password);
 $utilisateurs = $admin->afficherUsers();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +26,26 @@ $utilisateurs = $admin->afficherUsers();
   <title>Admin Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Ajoutez ici vos styles CSS */
+    .nav-link {
+      background: linear-gradient(to right, #0066cc, #00ccff);
+      color: white;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    .nav-link:hover {
+      background: linear-gradient(to right, #004d99, #0099cc);
+    }
+    .nav-link svg {
+      margin-right: 0.75rem;
+    }
+    .logout-btn {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+    }
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -33,7 +57,54 @@ $utilisateurs = $admin->afficherUsers();
       </div>
       <nav class="flex-grow p-4">
         <ul>
-          <!-- Ajoutez ici vos liens de navigation -->
+        <li>
+            <a href="/pages/teacher-statistics.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              Statistics
+            </a>
+          </li>
+          <li>
+            <a href="/pages/admin-listUsers.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              Manage Users account
+            </a>
+          </li>
+          <li>
+            <a href="/pages/teacher-statistics.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              Manage Courses
+            </a>
+          </li>
+          <li>
+            <a href="/pages/teacher-statistics.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              Manage Category
+            </a>
+          </li>
+          <li>
+            <a href="/pages/teacher-statistics.php" class="nav-link">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+              Manage Tags
+            </a>
+          </li>
+          <li>
+            <a href="/pages/logout.php" class="nav-link logout-btn">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12h6M12 15v-6M19 12a7 7 0 11-14 0a7 7 0 0114 0z"></path>
+              </svg>
+              Logout
+            </a>    
+          </li>
         </ul>
       </nav>
     </aside>
