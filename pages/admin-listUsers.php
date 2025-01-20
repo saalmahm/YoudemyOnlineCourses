@@ -1,7 +1,7 @@
 <?php
 require_once '../db.php';
- require_once '../classes/User.php';
-  require_once '../classes/Administrateur.php';
+require_once '../classes/User.php';
+require_once '../classes/Administrateur.php';
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
@@ -16,7 +16,6 @@ $user_password = $_SESSION['user_password'] ?? '';
 
 $admin = new Administrateur($conn, $user_id, $user_name, $user_email, $user_password);
 $utilisateurs = $admin->afficherUsers();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,11 +147,13 @@ $utilisateurs = $admin->afficherUsers();
                           <?= htmlspecialchars($utilisateur['active'] ? 'Actif' : 'Inactif') ?>
                       </td>
                       <td class="px-6 py-4 flex space-x-4">
-                        <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
-                        <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
+                        <?php if ($utilisateur['active']) { ?>
+                          <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
+                        <?php } else { ?>
+                          <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
+                        <?php } ?>
                         <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
                       </td>
-
                   </tr>
                   <?php } ?>
               </tbody>
