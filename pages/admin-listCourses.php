@@ -1,7 +1,9 @@
 <?php
 require_once '../db.php';
 require_once '../classes/User.php';
+require_once '../classes/Cours.php';
 require_once '../classes/Administrateur.php';
+
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
@@ -10,19 +12,21 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 $user_id = $_SESSION['user_id'];
-$user_name = $_SESSION['user_name'] ?? 'Admin'; 
+$user_name = $_SESSION['user_name'] ?? 'Admin';
 $user_email = $_SESSION['user_email'] ?? '';
 $user_password = $_SESSION['user_password'] ?? '';
 
+// Initialiser l'admin et récupérer les cours
 $admin = new Administrateur($conn, $user_id, $user_name, $user_email, $user_password);
-$utilisateurs = $admin->afficherUsers();
+$coursObj = new Cours($conn);
+$cours = $coursObj->recupererTousLesCours();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard - Manage Courses</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .nav-link {
@@ -110,50 +114,43 @@ $utilisateurs = $admin->afficherUsers();
 
     <main class="flex-grow p-6">
       <header class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-blue-700">Welcome Admin,</h2>
+        <h2 class="text-3xl font-bold text-blue-700">Manage Courses</h2>
       </header>
 
-      <!-- Tableau des Utilisateurs -->
+      <!-- Tableau des Cours -->
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                       <th scope="col" class="px-6 py-3">ID</th>
-                      <th scope="col" class="px-6 py-3">Nom</th>
-                      <th scope="col" class="px-6 py-3">Email</th>
-                      <th scope="col" class="px-6 py-3">Rôle</th>
-                      <th scope="col" class="px-6 py-3">Statut</th>
+                      <th scope="col" class="px-6 py-3">Titre</th>
+                      <th scope="col" class="px-6 py-3">Catégorie</th>
+                      <th scope="col" class="px-6 py-3">Contenu</th>
                       <th scope="col" class="px-6 py-3">Actions</th>
                   </tr>
               </thead>
               <tbody>
-                  <?php foreach ($utilisateurs as $utilisateur): ?>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                          <?= htmlspecialchars($utilisateur['id']) ?>
-                      </th>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['nom']) ?>
-                      </td>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['email']) ?>
-                      </td>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['rôle']) ?>
-                      </td>
-                      <td class="px-6 py-4">
-                          <?= htmlspecialchars($utilisateur['active'] ? 'Actif' : 'Inactif') ?>
-                      </td>
-                      <td class="px-6 py-4 flex space-x-4">
-                        <?php if ($utilisateur['active']) { ?>
-                          <a href="./admin-suspendre-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Suspendre</a>
-                        <?php } else { ?>
-                          <a href="./admin-activer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-green-600 dark:text-green-500 hover:underline">Activer</a>
-                        <?php } ?>
-                        <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
-                      </td>
-                  </tr>
-                  <?php endforeach; ?>
+              <?php foreach ($cours as $coursItem): ?>
+<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+        <?= htmlspecialchars($coursItem['id']) ?>
+    </th>
+    <td class="px-6 py-4">
+        <?= htmlspecialchars($coursItem['titre']) ?>
+    </td>
+    <td class="px-6 py-4">
+        <?= htmlspecialchars($coursItem['categorie_nom']) ?>
+    </td>
+    <td class="px-6 py-4">
+        <a href="admin-contenu-cours.php?id=<?= htmlspecialchars($coursItem['id']) ?>" class="text-blue-600 hover:underline">Voir le contenu</a>
+    </td>
+    <td class="px-6 py-4 flex space-x-4">
+        <a href="./admin-supprimer-cours.php?id=<?= $coursItem['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
+    </td>
+</tr>
+<?php endforeach; ?>
+
+
               </tbody>
           </table>
       </div>
