@@ -56,7 +56,7 @@ $utilisateurs = $admin->afficherUsers();
       </div>
       <nav class="flex-grow p-4">
         <ul>
-        <li>
+          <li>
             <a href="/pages/teacher-statistics.php" class="nav-link">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 6h16M4 12h16M4 18h7"></path>
@@ -127,9 +127,7 @@ $utilisateurs = $admin->afficherUsers();
                   </tr>
               </thead>
               <tbody>
-                  <?php
-                  foreach ($utilisateurs as $utilisateur) {
-                  ?>
+                  <?php foreach ($utilisateurs as $utilisateur): ?>
                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                           <?= htmlspecialchars($utilisateur['id']) ?>
@@ -155,7 +153,7 @@ $utilisateurs = $admin->afficherUsers();
                         <a href="./admin-supprimer-user.php?id=<?= $utilisateur['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</a>
                       </td>
                   </tr>
-                  <?php } ?>
+                  <?php endforeach; ?>
               </tbody>
           </table>
       </div>
