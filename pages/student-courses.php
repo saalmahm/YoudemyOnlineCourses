@@ -130,12 +130,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             if (result.success) {
                 alert(result.message);
+                window.location.href = "/pages/myCourses-student.php"; 
             } else {
                 alert(`Erreur : ${result.message}`);
             }
         });
     });
 });
+
 
 
 </script>
