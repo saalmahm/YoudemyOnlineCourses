@@ -23,11 +23,22 @@ class Cours {
         $this->description = $description;
     }
 
-    public function creeCours($titre, $description, $categorie_id, $created_by) {
+    public function creeCours($titre, $description, $categorie_id, $created_by, $contenus) {
         $query = "INSERT INTO Cours (titre, description, catégorie_id, created_by) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$titre, $description, $categorie_id, $created_by]);
         $this->id = $this->db->lastInsertId();
+    
+        $this->ajouterContenus($contenus);  
+    }
+    
+
+    public function ajouterContenus($contenus) {
+        foreach ($contenus as $contenu) {
+            $query = "INSERT INTO Contenu (type, data, cours_id) VALUES (?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$contenu['type'], $contenu['data'], $this->id]);
+        }
     }
 
     public function getTotalCours($user_id = null) {
@@ -118,7 +129,6 @@ class Cours {
             return false;
         }
     }
-    
 
     public function supprimerTagsParCours($cours_id) {
         $query = "DELETE FROM coursTag WHERE cours_id = ?";
@@ -183,14 +193,13 @@ class Cours {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
-        public function compterTotalCours() {
-            $query = "SELECT COUNT(*) as total FROM Cours";
-            $stmt = $this->db->query($query);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['total'];
-        }
+
+    public function compterTotalCours() {
+        $query = "SELECT COUNT(*) as total FROM Cours";
+        $stmt = $this->db->query($query);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 
     public function getId() {
         return $this->id;
