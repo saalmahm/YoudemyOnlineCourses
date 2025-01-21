@@ -96,75 +96,74 @@ if ($tousLesCours === false) {
       </header>
 
       <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-gray-700">Add New Course</h2>
-            <button id="close-modal" class="text-gray-500 hover:text-gray-700 font-bold text-lg">×</button>
-          </div>
-          <form id="course-form" method="POST" action="./add-cours.php" enctype="multipart/form-data">
-            <!-- Section Cours -->
-            <div class="mb-4">
-              <label for="course-title" class="block text-sm font-medium text-gray-700">Course Title</label>
-              <input type="text" id="course-title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course title" required />
-            </div>
-            <div class="mb-4">
-              <label for="course-description" class="block text-sm font-medium text-gray-700">Course Description</label>
-              <textarea id="course-description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course description" required></textarea>
-            </div>
-            <div class="mb-4">
-              <label for="course-category" class="block text-sm font-medium text-gray-700">Category</label>
-              <?php
-                require_once '../db.php'; 
-                require_once '../classes/Categorie.php'; 
-                require_once '../classes/Tag.php'; 
-
-                $categorie = new Categorie($conn);
-                $categories = $categorie->recupererCategories();
-
-                $tag = new Tag($conn);
-                $tags = $tag->recupererTags();
-              ?>
-              <select id="course-category" name="category" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                <option value="">Select a category</option>
-                <?php foreach ($categories as $cat) : ?>
-                  <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-            <!-- Section Tags -->
-            <div class="mb-4">
-              <label for="course-tags" class="block text-sm font-medium text-gray-700">Tags</label>
-              <select id="course-tags" name="tags[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" multiple required>
-                <?php foreach ($tags as $tag) : ?>
-                  <option value="<?= htmlspecialchars($tag['id']) ?>"><?= htmlspecialchars($tag['nom']) ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-            <!-- Section Contenus -->
-            <div id="content-section" class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Contents</label>
-              <div id="content-fields" class="space-y-4">
-                <div class="content-item flex space-x-4 items-center">
-                  <select name="content-type[]" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                    <option value="">Select content type</option>
-                    <option value="video">Video</option>
-                    <option value="document">Document</option>
-                  </select>
-                  <input type="file" name="content-file[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
-                  <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
-                </div>
-              </div>
-              <button id="add-content" type="button" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add Content</button>
-            </div>
-            <!-- Boutons d'action -->
-            <div class="flex justify-end space-x-2">
-              <button type="button" id="cancel-modal" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
-              <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Add Course</button>
-            </div>
-          </form>
-        </div>
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full max-h-full overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-gray-700">Add New Course</h2>
+      <button id="close-modal" class="text-gray-500 hover:text-gray-700 font-bold text-lg">×</button>
+    </div>
+    <form id="course-form" method="POST" action="./add-cours.php" enctype="multipart/form-data">
+      <!-- Section Cours -->
+      <div class="mb-4">
+        <label for="course-title" class="block text-sm font-medium text-gray-700">Course Title</label>
+        <input type="text" id="course-title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course title" required />
       </div>
- 
+      <div class="mb-4">
+        <label for="course-description" class="block text-sm font-medium text-gray-700">Course Description</label>
+        <textarea id="course-description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter course description" required></textarea>
+      </div>
+      <div class="mb-4">
+        <label for="course-category" class="block text-sm font-medium text-gray-700">Category</label>
+        <?php
+          require_once '../db.php'; 
+          require_once '../classes/Categorie.php'; 
+          require_once '../classes/Tag.php'; 
+
+          $categorie = new Categorie($conn);
+          $categories = $categorie->recupererCategories();
+
+          $tag = new Tag($conn);
+          $tags = $tag->recupererTags();
+        ?>
+        <select id="course-category" name="category" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+          <option value="">Select a category</option>
+          <?php foreach ($categories as $cat) : ?>
+            <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <!-- Section Tags -->
+      <div class="mb-4">
+        <label for="course-tags" class="block text-sm font-medium text-gray-700">Tags</label>
+        <select id="course-tags" name="tags[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" multiple required>
+          <?php foreach ($tags as $tag) : ?>
+            <option value="<?= htmlspecialchars($tag['id']) ?>"><?= htmlspecialchars($tag['nom']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <!-- Section Contenus -->
+      <div id="content-section" class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Contents</label>
+        <div id="content-fields" class="space-y-4">
+          <div class="content-item flex space-x-4 items-center">
+            <select name="content-type[]" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+              <option value="">Select content type</option>
+              <option value="video">Video</option>
+              <option value="document">Document</option>
+            </select>
+            <input type="file" name="content-file[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+            <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
+          </div>
+        </div>
+        <button id="add-content" type="button" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add Content</button>
+      </div>
+      <!-- Boutons d'action -->
+      <div class="flex justify-end space-x-2">
+        <button type="button" id="cancel-modal" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Add Course</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- Tableau des Cours -->
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
