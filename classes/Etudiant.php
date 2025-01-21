@@ -8,10 +8,6 @@ class Etudiant extends User {
         parent::__construct($pdo, $id, $nom, $email, 'étudiant', $password);
     }
 
-    public static function créeCompte($conn, $nom, $email, $role, $password, $active = 0) {
-        parent::créeCompte($conn, $nom, $email, $role, $password, $active);
-    }
-
     public function sinscrireCours($coursId) {
         $stmt = $this->pdo->prepare("SELECT * FROM ÉtudiantCours WHERE étudiant_id = :etudiant_id AND cours_id = :cours_id");
         $stmt->execute(['etudiant_id' => $this->id, 'cours_id' => $coursId]);
@@ -34,7 +30,4 @@ class Etudiant extends User {
         $stmt->execute(['etudiant_id' => $this->id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
-    
 }

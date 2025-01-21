@@ -2,9 +2,7 @@
 require_once 'User.php';
 
 class Administrateur extends User {
-    private $utilisateurs = [];
-    private $cours = [];
-
+    
     public function __construct($pdo, $id, $nom, $email, $password) {
         parent::__construct($pdo, $id, $nom, $email, 'admin', $password);
     }
@@ -20,10 +18,18 @@ class Administrateur extends User {
     }
 
     public function supprimerUser($userId) {
-        $stmt = $this->pdo->prepare("DELETE FROM Utilisateur WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) as count FROM Cours WHERE created_by = :id");
         $stmt->execute(['id' => $userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($row['count'] > 0) {
+            throw new Exception("Cet utilisateur a encore des cours associés. Veuillez les supprimer avant de supprimer cet utilisateur.");
+        } else {
+            $stmt = $this->pdo->prepare("DELETE FROM Utilisateur WHERE id = :id");
+            $stmt->execute(['id' => $userId]);
+        }
     }
-
+    
     public function afficherUsers() {
         $stmt = $this->pdo->query("SELECT id, nom, email, rôle, active FROM Utilisateur");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

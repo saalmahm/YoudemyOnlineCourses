@@ -28,11 +28,9 @@ class Cours {
         $stmt = $this->db->prepare($query);
         $stmt->execute([$titre, $description, $categorie_id, $created_by]);
         $this->id = $this->db->lastInsertId();
-    
         $this->ajouterContenus($contenus);  
     }
     
-
     public function ajouterContenus($contenus) {
         foreach ($contenus as $contenu) {
             $query = "INSERT INTO Contenu (type, data, cours_id) VALUES (?, ?, ?)";

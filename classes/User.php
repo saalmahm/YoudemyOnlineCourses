@@ -49,26 +49,36 @@ abstract class User {
             throw new Exception("Échec de la connexion. Vérifiez vos identifiants.");
         }
     }
+
+    public static function créeCompte($conn, $nom, $email, $role, $password, $active = 0) {
+        try {
+            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+            
+            $checkQuery = "SELECT * FROM Utilisateur WHERE email = :email";
+            $stmt = $conn->prepare($checkQuery);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
     
-      
-    public function afficherProfil() {
-        echo "Nom: $this->nom<br>";
-        echo "Email: $this->email<br>";
-        echo "Rôle: $this->role<br>";
-    }
-
-    public function consulterCatalogue() {
-        $stmt = $this->pdo->query("SELECT * FROM Cours");
-        while ($row = $stmt->fetch()) {
-            echo "Titre: " . $row["titre"] . " - Description: " . $row["description"] . "<br>";
-        }
-    }
-
-    public function rechercherCours($motCle) {
-        $stmt = $this->pdo->prepare("SELECT * FROM Cours WHERE titre LIKE :motCle OR description LIKE :motCle");
-        $stmt->execute(['motCle' => "%$motCle%"]);
-        while ($row = $stmt->fetch()) {
-            echo "Titre: " . $row["titre"] . " - Description: " . $row["description"] . "<br>";
+            if ($result) {
+                return "L'utilisateur existe déjà.";
+            }
+    
+            $insertQuery = "INSERT INTO Utilisateur (nom, email, rôle, mot_de_passe, active) VALUES (:nom, :email, :role, :motDePasse, :active)";
+            $stmt = $conn->prepare($insertQuery);
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':role', $role);
+            $stmt->bindParam(':motDePasse', $passwordHash);
+            $stmt->bindParam(':active', $active, PDO::PARAM_INT);
+    
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                throw new Exception("Erreur lors de l'inscription : " . $stmt->errorInfo()[2]);
+            }
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la création de l'utilisateur : " . $e->getMessage());
         }
     }
 
@@ -104,35 +114,5 @@ abstract class User {
         $this->role = $role;
     }
 
-    public static function créeCompte($conn, $nom, $email, $role, $password, $active = 0) {
-        try {
-            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-            
-            $checkQuery = "SELECT * FROM Utilisateur WHERE email = :email";
-            $stmt = $conn->prepare($checkQuery);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            if ($result) {
-                return "L'utilisateur existe déjà.";
-            }
-    
-            $insertQuery = "INSERT INTO Utilisateur (nom, email, rôle, mot_de_passe, active) VALUES (:nom, :email, :role, :motDePasse, :active)";
-            $stmt = $conn->prepare($insertQuery);
-            $stmt->bindParam(':nom', $nom);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':role', $role);
-            $stmt->bindParam(':motDePasse', $passwordHash);
-            $stmt->bindParam(':active', $active, PDO::PARAM_INT);
-    
-            if ($stmt->execute()) {
-                return true;
-            } else {
-                throw new Exception("Erreur lors de l'inscription : " . $stmt->errorInfo()[2]);
-            }
-        } catch (Exception $e) {
-            throw new Exception("Erreur lors de la création de l'utilisateur : " . $e->getMessage());
-        }
-    }
+
 }
