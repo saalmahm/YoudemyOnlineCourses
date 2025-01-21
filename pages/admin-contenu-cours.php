@@ -19,9 +19,10 @@ if (empty($coursId)) {
 $cours = new Cours($conn);
 $courseDetails = $cours->recupererUnCours($coursId);
 $courseContents = $cours->recupererContenusParCours($coursId);
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +57,14 @@ $courseContents = $cours->recupererContenusParCours($coursId);
         <?php foreach ($courseContents as $content): ?>
             <li class="text-gray-600">
                 <?= htmlspecialchars($content['titre'] ?? '') ?>:
-                <?php if ($content['type'] === 'document' && pathinfo($content['data'], PATHINFO_EXTENSION) === 'pdf'): ?>
+                <?php if ($content['type'] === 'vidéo'): ?>
+                    <div class="video-container">
+                        <video controls>
+                            <source src="<?= htmlspecialchars($content['data'] ?? '') ?>" type="video/mp4">
+                            Votre navigateur ne supporte pas la balise vidéo.
+                        </video>
+                    </div>
+                <?php elseif ($content['type'] === 'document' && pathinfo($content['data'], PATHINFO_EXTENSION) === 'pdf'): ?>
                     <div class="iframe-container">
                         <iframe src="<?= htmlspecialchars($content['data'] ?? '') ?>"></iframe>
                     </div>
