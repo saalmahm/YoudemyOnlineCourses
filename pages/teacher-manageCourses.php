@@ -1,3 +1,4 @@
+
 <?php
 
 session_start();
@@ -217,9 +218,6 @@ if ($tousLesCours === false) {
         </tbody>
     </table>
 </div>
-
-
-
     </main>
   </div>
 
@@ -251,7 +249,7 @@ if ($tousLesCours === false) {
         <option value="video">Video</option>
         <option value="document">Document</option>
       </select>
-      <input type="text" name="content-data[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter content data (URL or description)" required />
+      <input type="file" name="content-data[]" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter content data (URL or description)" required />
       <button type="button" class="remove-content px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
     `;
     contentFields.appendChild(contentItem);

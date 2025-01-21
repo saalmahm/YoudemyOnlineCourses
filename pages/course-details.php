@@ -53,7 +53,8 @@ $courseContents = $cours->recupererContenusParCours($coursId);
     <h1 class="text-3xl font-bold text-indigo-700 mb-6"><?= htmlspecialchars($courseDetails['titre'] ?? '') ?></h1>
     <p class="text-gray-600 mb-4"><?= htmlspecialchars($courseDetails['description'] ?? '') ?></p>
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Contenu du cours</h2>
-    <ul class="list-disc list-inside">
+    <ul
+    + class="list-disc list-inside">
         <?php foreach ($courseContents as $content): ?>
             <li class="text-gray-600">
                 <?= htmlspecialchars($content['titre'] ?? '') ?>:
@@ -62,7 +63,7 @@ $courseContents = $cours->recupererContenusParCours($coursId);
                         <iframe src="<?= htmlspecialchars($content['data'] ?? '') ?>"></iframe>
                     </div>
                 <?php else: ?>
-                    <?= htmlspecialchars($content['data'] ?? '') ?>
+                    <video width="400" controls src="http://localhost:3000/<?= htmlspecialchars($content['data'] ?? '') ?>"></video>
                 <?php endif; ?>
             </li>
         <?php endforeach; ?>
